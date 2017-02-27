@@ -63,7 +63,7 @@
     <div class="col-12">
       <button type="button" id="toggleBtn" class="btn btn-primary">Primary</button>
 
-      <sm-toggle-container [luncher]="'#toggleBtn'" smToOverlay>
+      <sm-toggle-container [luncher]="'#toggleBtn'" smToOverlay [preventCloseContentClick]="true">
         toggle container content
         <div class="" style="background:gold">
           Another container

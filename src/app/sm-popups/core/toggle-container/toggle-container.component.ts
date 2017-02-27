@@ -36,16 +36,26 @@ export class ToggleContainerComponent implements OnInit {
 
   @HostListener('document:click', ['$event'])
   private onDocumentClick($ev) {
-    console.log(this.getLunchers);
-    if (this.getLunchers.length && this.elementIsLuncher($ev.target, this.getLunchers) && !this.isOpen) {
-      this.luncherElement = $ev.target;
+    let evTarget = this.getElFromEvent($ev);
+    
+    this.elementIsInContent(evTarget);
+
+    if (this.getLunchers.length && this.elementIsLuncher(evTarget, this.getLunchers) && !this.isOpen) {
+      this.luncherElement = evTarget;
       this.openToggleContainer();
     } else {
-      console.log(this.currentComponent.nativeElement == $ev.target)
+      //console.log(this.currentComponent.nativeElement == evTarget)
 
+      if (this.preventCloseContentClick && this.elementIsInContent(evTarget)) {
+        return;
+      }
+
+      this.closeToggleContainer();
+
+      /*
       if (!this.preventCloseContentClick) {
         this.closeToggleContainer();
-      }
+      } */
 
       //this.closeToggleContainer();
     }
@@ -80,8 +90,25 @@ export class ToggleContainerComponent implements OnInit {
     this.onStateChange.emit({isOpen: state, luncher: this.luncherElement});
   }
 
+  private elementIsInContent(evElement:HTMLElement) {
+    let isInContent = false;
+
+    do {
+      if(evElement == this.currentComponent.nativeElement) {
+        isInContent = true;
+        break;
+      }
+    } while (evElement = evElement.parentElement)
+
+    return isInContent;
+  }
+
 
   // Helpers
+  private getElFromEvent(ev) {
+    return ev.srcElement || ev.target;
+  }
+
   private elementIsLuncher(elementToCheck:HTMLElement, elementsList:NodeList):boolean {
     for (let i=0; i < elementsList.length; i++) {
       if (elementToCheck === elementsList[i]) {
