@@ -7,6 +7,8 @@
 <p class="test">Par 3</p>
 <p class="test" smToOverlay>Par 4</p>
 
+<button type="button" id="toggleBtn" class="btn btn-primary js-toggle-luncher">Toggle Container</button>
+
 
 <section class="container">
   <h1>Overlay component test</h1>
@@ -61,9 +63,9 @@
 
   <div class="row mt-4">
     <div class="col-12">
-      <button type="button" id="toggleBtn" class="btn btn-primary">Primary</button>
+      <button type="button" id="toggleBtn" class="btn btn-primary js-toggle-luncher">Primary</button>
 
-      <sm-toggle-container [luncher]="'#toggleBtn'" smToOverlay [preventCloseContentClick]="true">
+      <sm-toggle-container [luncher]="'.js-toggle-luncher'" smToOverlay [preventCloseContentClick]="true">
         toggle container content
         <div class="" style="background:gold">
           Another container
