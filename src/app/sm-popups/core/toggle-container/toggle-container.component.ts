@@ -41,9 +41,13 @@ export class ToggleContainerComponent implements OnInit {
       this.luncherElement = $ev.target;
       this.openToggleContainer();
     } else {
-      console.log(this.preventCloseContentClick, this.currentComponent.nativeElement, $ev)
+      console.log(this.currentComponent.nativeElement == $ev.target)
 
-      this.closeToggleContainer();
+      if (!this.preventCloseContentClick) {
+        this.closeToggleContainer();
+      }
+
+      //this.closeToggleContainer();
     }
   }
 
