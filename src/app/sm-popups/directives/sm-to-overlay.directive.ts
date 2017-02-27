@@ -10,7 +10,7 @@ let overlayContainer = null;
 export class SmToOverlayDirective {
 
   constructor(
-    private el:ElementRef,
+    private el?:ElementRef,
   ) { }
 
   ngOnInit() {
