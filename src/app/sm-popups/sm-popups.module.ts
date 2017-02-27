@@ -2,15 +2,25 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OverlayComponent } from './core/overlay/overlay.component';
 
-import { SmToOverlayService } from './services/sm-to-overlay.service';
+import { SmToOverlayDirective } from './directives/sm-to-overlay.directive';
+import { ToggleContainerComponent } from './core/toggle-container/toggle-container.component';
+
+//import './core/_core.scss';
 
 @NgModule({
   imports: [
     CommonModule
   ],
-  declarations: [OverlayComponent],
-  providers: [
-    SmToOverlayService,
-  ]
+  declarations: [
+    OverlayComponent,
+    SmToOverlayDirective,
+    ToggleContainerComponent
+  ],
+  exports: [
+    OverlayComponent,
+    SmToOverlayDirective,
+    ToggleContainerComponent
+  ],
+  providers: []
 })
 export class SmPopupsModule { }
