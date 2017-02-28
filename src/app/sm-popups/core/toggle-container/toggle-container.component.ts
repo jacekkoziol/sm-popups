@@ -2,8 +2,9 @@ import { Component, OnInit, OnChanges, Input, Output, EventEmitter, ElementRef, 
 
 @Component({
   selector: 'sm-toggle-container',
+  exportAs: 'sm-toggle-container',
   templateUrl: './toggle-container.component.html',
-  styleUrls: ['./toggle-container.component.scss']
+  styleUrls: ['./toggle-container.component.scss'],
 })
 export class ToggleContainerComponent implements OnInit {
 
@@ -15,7 +16,7 @@ export class ToggleContainerComponent implements OnInit {
 
   @Output() onStateChange = new EventEmitter<any>();
 
-  private luncherElement:HTMLElement | undefined;
+  public luncherElement:HTMLElement | undefined;
 
   constructor(
     private currentComponent:ElementRef
@@ -28,7 +29,7 @@ export class ToggleContainerComponent implements OnInit {
     if (newVal.isOpen && newVal.isOpen.currentValue !== undefined) {
 
       window.setTimeout(()=>{
-        this.setModalState(newVal.isOpen.currentValue);
+        this.setState(newVal.isOpen.currentValue);
       }, 0);
     }
 
@@ -37,27 +38,18 @@ export class ToggleContainerComponent implements OnInit {
   @HostListener('document:click', ['$event'])
   private onDocumentClick($ev) {
     let evTarget = this.getElFromEvent($ev);
-    
     this.elementIsInContent(evTarget);
 
     if (this.getLunchers.length && this.elementIsLuncher(evTarget, this.getLunchers) && !this.isOpen) {
       this.luncherElement = evTarget;
       this.openToggleContainer();
     } else {
-      //console.log(this.currentComponent.nativeElement == evTarget)
 
       if (this.preventCloseContentClick && this.elementIsInContent(evTarget)) {
         return;
       }
 
       this.closeToggleContainer();
-
-      /*
-      if (!this.preventCloseContentClick) {
-        this.closeToggleContainer();
-      } */
-
-      //this.closeToggleContainer();
     }
   }
 
@@ -77,15 +69,15 @@ export class ToggleContainerComponent implements OnInit {
   }
 
   private openToggleContainer() {
-    this.setModalState(true);
+    this.setState(true);
   }
 
   public closeToggleContainer($ev?):void {
     //$ev && $ev.preventDefault();
-    this.setModalState(false);
+    this.setState(false);
   }
 
-  public setModalState(state) {
+  public setState(state) {
     this.isOpen = state;
     this.onStateChange.emit({isOpen: state, luncher: this.luncherElement});
   }

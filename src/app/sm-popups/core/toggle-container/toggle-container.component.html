@@ -1,5 +1,8 @@
 test: {{isOpen}}
 
-<div class="sm-toggle-container" *ngIf="isOpen" [class.is-active]="isOpen">
-  <ng-content></ng-content>
+<div class="sm-toggle-container" *ngIf="isOpen"
+  [class.is-active]="isOpen"
+  smPosition
+  [smPositionLuncher]="luncherElement">
+    <ng-content></ng-content>
 </div>
