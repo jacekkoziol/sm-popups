@@ -40,6 +40,7 @@ export class SmPositionDirective {
   }
 
   private proccessPositioning():void {
+    console.log('>> ', this.smPositionLuncher);
     if (this.smPositionLuncher) {
       this.getTargetPosition();
       this.handlePositioningForCurrentEl();
@@ -55,7 +56,6 @@ export class SmPositionDirective {
   private getTargetPosition():void {
     if (this.smPositionLuncher) {
       this.targetElPosition = this.smPositionLuncher.getBoundingClientRect();
-      console.log(this.targetElPosition);
     }
   }
 
@@ -81,6 +81,7 @@ export class SmPositionDirective {
 
   private setPositionForCurrentElement():void {
     this.renderer.setElementStyle(this.currentElement.nativeElement, 'position', 'absolute');
+    this.renderer.setElementStyle(this.currentElement.nativeElement, 'z-index', '50');
     this.renderer.setElementStyle(this.currentElement.nativeElement, 'top', this.intentionalPosition.top + 'px');
     this.renderer.setElementStyle(this.currentElement.nativeElement, 'left', this.intentionalPosition.left + 'px');
   }

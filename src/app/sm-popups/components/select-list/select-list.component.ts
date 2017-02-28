@@ -1,12 +1,13 @@
 import { Component, OnInit, ElementRef, Input} from '@angular/core';
 import { ToggleContainerComponent } from '../../core/toggle-container/toggle-container.component';
+import { Option } from '../../core/a-models/options';
 
 @Component({
-  selector: 'sm-tooltip',
-  templateUrl: './tooltip.component.html',
-  styleUrls: ['./tooltip.component.scss']
+  selector: 'sm-select-list',
+  templateUrl: './select-list.component.html',
+  styleUrls: ['./select-list.component.scss']
 })
-export class TooltipComponent extends ToggleContainerComponent implements OnInit {
+export class SelectListComponent extends ToggleContainerComponent implements OnInit {
 
   @Input() css:string;
 

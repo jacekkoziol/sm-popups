@@ -1,0 +1,12 @@
+
+<input #refInputModel="ngModel" hidden type="text" class="sm-input-select" name="selectHidden" [(ngModel)]="selectedOption.id">
+<input #refInputLuncher readonly (click)="refSelectList.openToggleContainer()" type="text" class="sm-input-select" name="selectLabel" [(ngModel)]="selectedOption.text">
+
+
+<sm-select-list
+  #refSelectList
+  [position]="position"
+  [positionLuncher]="refInputLuncher"
+  [positionPreventAdjust]="false">
+</sm-select-list>
+

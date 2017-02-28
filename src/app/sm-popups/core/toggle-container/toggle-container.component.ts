@@ -17,6 +17,7 @@ export class ToggleContainerComponent implements OnInit {
   @Output() onStateChange = new EventEmitter<any>();
 
   public luncherElement:HTMLElement | undefined;
+  private allowCloseContainer:boolean = true;
 
   constructor(
     protected currentComponent:ElementRef
@@ -38,14 +39,13 @@ export class ToggleContainerComponent implements OnInit {
   @HostListener('document:click', ['$event'])
   protected onDocumentClick($ev) {
     let evTarget = this.getElFromEvent($ev);
-    this.elementIsInContent(evTarget);
 
     if (this.getLunchers.length && this.elementIsLuncher(evTarget, this.getLunchers) && !this.isOpen) {
       this.luncherElement = evTarget;
       this.openToggleContainer();
     } else {
 
-      if (this.preventCloseContentClick && this.elementIsInContent(evTarget)) {
+      if (this.preventCloseContentClick && this.elementIsInContent(evTarget) || !this.allowCloseContainer) {
         return;
       }
 
@@ -68,7 +68,8 @@ export class ToggleContainerComponent implements OnInit {
     return document.querySelectorAll(this.luncher);
   }
 
-  protected openToggleContainer() {
+  protected openToggleContainer($ev?):void {
+    this.preventCloseDuringOpenning();
     this.setState(true);
   }
 
@@ -93,6 +94,13 @@ export class ToggleContainerComponent implements OnInit {
     } while (evElement = evElement.parentElement)
 
     return isInContent;
+  }
+
+  private preventCloseDuringOpenning():void {
+    if (!this.isOpen) {
+      this.allowCloseContainer = false;
+      setTimeout(()=>this.allowCloseContainer = true, 5);
+    }
   }
 
 

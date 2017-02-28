@@ -7,92 +7,11 @@
 <p class="test">Par 3</p>
 <p class="test" smToOverlay>Par 4</p>
 
-<button style="position:relative; transform:translate(300%,140%); z-index:40" type="button" id="toggleBtn" class="btn btn-primary js-toggle-luncher">Toggle Container</button>
+<button type="button" id="toggleBtn" class="btn btn-primary js-toggle-luncher">Toggle Container</button>
 
+<section class="container">
+  <h1>Tooltip</h1>
 
-<section class="container" style="min-width: 1000px">
-  <h1>Overlay component test</h1>
-
-  <div class="row">
-      <div class="col-12">
-
-        <form action="?" class="form-inline" name="testForm 1">
-
-          <label class="sr-only" for="name">Name</label>
-          <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="name" name="name" placeholder="Name">
-
-          <label class="sr-only" for="username">Username</label>
-          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-            <div class="input-group-addon">@</div>
-            <input type="text" class="form-control" id="username" name="username" placeholder="Username">
-          </div>
-
-          <label class="sr-only" for="lastName">Username</label>
-          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name">
-          </div>
-
-        </form>
-    </div>
-  </div>
-
-  <div class="row mt-5">
-    <div class="col-12">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </div>
-  </div>
-
-  <div class="row mt-4">
-    <div class="col-4">
-      <form action="?" name="test2">
-        <div class="form-group">
-          <label for="formGroupExampleInput">Example label</label>
-          <input type="text" class="form-control" id="formGroupExampleInput" name="formGroupExampleInput" placeholder="Example input">
-        </div>
-        <div class="form-group">
-          <label for="formGroupExampleInput2">Another label</label>
-          <input type="text" class="form-control" id="formGroupExampleInput2" name="formGroupExampleInput2" placeholder="Another input">
-        </div>
-        <div class="form-group">
-          <label for="formGroupExampleInput2">Third label</label>
-          <input type="text" class="form-control" id="formGroupExampleInput2" name="formGroupExampleInput2" placeholder="Third input">
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <div class="row mt-4">
-
-    <div class="col-3">
-      <button type="button" class="btn btn-primary js-toggle-luncher">1</button>
-    </div>
-    <div class="col-3">
-      <button type="button" class="btn btn-primary js-toggle-luncher">2</button>
-    </div>
-    <div class="col-3">
-      <button type="button" class="btn btn-primary js-toggle-luncher">3</button>
-    </div>
-    <div class="col-3">
-      <button type="button" class="btn btn-primary js-toggle-luncher">4</button>
-    </div>
-    <div class="col-12">
-      <sm-toggle-container
-        #refToggler="sm-toggle-container"
-        [luncher]="'.js-toggle-luncher'"
-        [preventCloseContentClick]="true"
-        smToOverlay>
-          <h1>toggle container content</h1>
-          <div class="" style="background:gold; width:700px">
-            Another container
-          </div>
-      </sm-toggle-container>
-    </div>
-  </div>
-
-</section>
-<br><br>
-
-<section>
   <div class="row">
     <div class="col-3">
       <button type="button" class="btn btn-primary js-toggle-luncher-tooltip">1</button>
@@ -116,10 +35,25 @@
   </div>
 </section>
 
+<section class="container mt-5">
+  <h1>Select</h1>
 
+  <div class="row">
+    <div class="col-3">
+      <sm-select></sm-select>
+    </div>
+    <div class="col-3">
 
+    </div>
+    <div class="col-3">
+      <sm-select></sm-select>
+    </div>
+    <div class="col-3">
+      <sm-select></sm-select>
+    </div>
+  </div>
+</section>
 
-{{refToggler.luncherElement}}
 
 <!-- Styles Import -->
 <sm-overlay></sm-overlay>
