@@ -2,11 +2,13 @@
 <input #refInputModel="ngModel" hidden type="text" class="sm-input-select" name="selectHidden" [(ngModel)]="selectedOption.id">
 <input #refInputLuncher readonly (click)="refSelectList.openToggleContainer()" type="text" class="sm-input-select" name="selectLabel" [(ngModel)]="selectedOption.text">
 
+<div>Selected: {{refSelectList.selectedOption.text}}</div>
 
 <sm-select-list
   #refSelectList
   [position]="position"
   [positionLuncher]="refInputLuncher"
-  [positionPreventAdjust]="false">
+  [positionPreventAdjust]="false"
+  [options]="options">
 </sm-select-list>
 

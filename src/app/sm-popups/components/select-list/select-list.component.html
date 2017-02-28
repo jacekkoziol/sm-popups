@@ -1,8 +1,27 @@
-<div class="sm-tooltip {{css}}" *ngIf="isOpen"
+<div class="sm-select-list {{css}}" *ngIf="isOpen"
   [class.is-active]="isOpen"
   smToOverlay
   [smPosition]="position"
   [smPositionLuncher]="positionLuncher || luncherElement"
   [smPositionPreventAdjust]="positionPreventAdjust">
-    Select List
+
+  <div class="select-filter {{css}}" [ngClass]="{'select-filter--no-search': !hasSearch}" (mouseenter)="focusInput(refInput)">
+    <div *ngIf="hasSearch" class="select-filter__field">
+      <input #refInputSearch
+        (keyup)="filterOptions($event.target.value)"
+        (keydown)="keyboardNavigation($event)"
+        (blur)="setAsHover(selectedOptionIndex)"
+        (click)="$event.stopPropagation()"
+        type="text" class="select-filter__input" value="">
+    </div>
+    <ul class="select-filter__list">
+      <li class="select-filter__item" *ngFor="let option of arrOptionFiltered; let i = index">
+        <a (click)="selectOption(option, i)"
+          (mouseenter)="setAsHover(i)"
+          (mouseleave)="setAsHover(selectedOptionIndex)"
+          [ngClass]="{'is-active': selectedOption.id == option.id, 'is-hover': i == optionHoverIndex}" class="select-filter__option">{{option.text}}</a>
+      </li>
+    </ul>
+  </div>
+SELECT
 </div>

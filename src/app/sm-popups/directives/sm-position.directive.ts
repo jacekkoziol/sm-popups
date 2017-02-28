@@ -40,7 +40,6 @@ export class SmPositionDirective {
   }
 
   private proccessPositioning():void {
-    console.log('>> ', this.smPositionLuncher);
     if (this.smPositionLuncher) {
       this.getTargetPosition();
       this.handlePositioningForCurrentEl();
