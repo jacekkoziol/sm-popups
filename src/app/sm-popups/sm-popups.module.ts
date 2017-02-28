@@ -5,6 +5,7 @@ import { OverlayComponent } from './core/overlay/overlay.component';
 import { SmToOverlayDirective } from './directives/sm-to-overlay.directive';
 import { ToggleContainerComponent } from './core/toggle-container/toggle-container.component';
 import { SmPositionDirective } from './directives/sm-position.directive';
+import { TooltipComponent } from './components/tooltip/tooltip.component';
 
 //import './core/_core.scss';
 
@@ -16,13 +17,15 @@ import { SmPositionDirective } from './directives/sm-position.directive';
     OverlayComponent,
     SmToOverlayDirective,
     ToggleContainerComponent,
-    SmPositionDirective
+    SmPositionDirective,
+    TooltipComponent
   ],
   exports: [
     OverlayComponent,
     ToggleContainerComponent,
     SmToOverlayDirective,
-    SmPositionDirective
+    SmPositionDirective,
+    TooltipComponent
   ],
   providers: []
 })

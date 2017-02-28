@@ -8,18 +8,18 @@ import { Component, OnInit, OnChanges, Input, Output, EventEmitter, ElementRef, 
 })
 export class ToggleContainerComponent implements OnInit {
 
-  @Input() private isOpen:boolean = false;
-  @Input() private css:string;
-  @Input() private luncher:string = '';   // usage like document.querySelectorAll(), eg.: [luncher]="'#some-id, .someClass'"
+  @Input() protected isOpen:boolean = false;
+  @Input() protected css:string;
+  @Input() protected luncher:string = '';   // usage like document.querySelectorAll(), eg.: [luncher]="'#some-id, .someClass'"
 
-  @Input() private preventCloseContentClick:boolean = false;   // prevent Close if toggle-container area is clicked
+  @Input() protected preventCloseContentClick:boolean = false;   // prevent Close if toggle-container area is clicked
 
   @Output() onStateChange = new EventEmitter<any>();
 
   public luncherElement:HTMLElement | undefined;
 
   constructor(
-    private currentComponent:ElementRef
+    protected currentComponent:ElementRef
   ) { }
 
   ngOnInit() {
@@ -36,7 +36,7 @@ export class ToggleContainerComponent implements OnInit {
   }
 
   @HostListener('document:click', ['$event'])
-  private onDocumentClick($ev) {
+  protected onDocumentClick($ev) {
     let evTarget = this.getElFromEvent($ev);
     this.elementIsInContent(evTarget);
 
@@ -54,13 +54,13 @@ export class ToggleContainerComponent implements OnInit {
   }
 
   @HostListener('document:keydown', ['$event'])
-  private onKeyPress($ev:KeyboardEvent) {
+  protected onKeyPress($ev:KeyboardEvent) {
     if ($ev.keyCode == 27) {
       this.closeToggleContainer();
     }
   }
 
-  private get getLunchers():NodeList {
+  protected get getLunchers():NodeList {
     if(!this.luncher.trim().length) {
       return document.querySelectorAll('_no-string-defined');
     }
@@ -68,7 +68,7 @@ export class ToggleContainerComponent implements OnInit {
     return document.querySelectorAll(this.luncher);
   }
 
-  private openToggleContainer() {
+  protected openToggleContainer() {
     this.setState(true);
   }
 
@@ -82,7 +82,7 @@ export class ToggleContainerComponent implements OnInit {
     this.onStateChange.emit({isOpen: state, luncher: this.luncherElement});
   }
 
-  private elementIsInContent(evElement:HTMLElement) {
+  protected elementIsInContent(evElement:HTMLElement) {
     let isInContent = false;
 
     do {
@@ -97,11 +97,11 @@ export class ToggleContainerComponent implements OnInit {
 
 
   // Helpers
-  private getElFromEvent(ev) {
+  protected getElFromEvent(ev) {
     return ev.srcElement || ev.target;
   }
 
-  private elementIsLuncher(elementToCheck:HTMLElement, elementsList:NodeList):boolean {
+  protected elementIsLuncher(elementToCheck:HTMLElement, elementsList:NodeList):boolean {
     for (let i=0; i < elementsList.length; i++) {
       if (elementToCheck === elementsList[i]) {
         return true;

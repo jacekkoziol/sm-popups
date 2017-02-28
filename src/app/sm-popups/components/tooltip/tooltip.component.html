@@ -1,0 +1,8 @@
+<div class="sm-tooltip" *ngIf="isOpen"
+  [class.is-active]="isOpen"
+  smToOverlay
+  [smPosition]="position"
+  [smPositionLuncher]="positionLuncher || luncherElement"
+  [smPositionPreventAdjust]="positionPreventAdjust">
+    <ng-content></ng-content>
+</div>

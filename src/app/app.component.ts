@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app works!';
+
+  private onStateChange($ev) {
+    console.log('app.component, onStateChange: ', $ev);
+  }
 }

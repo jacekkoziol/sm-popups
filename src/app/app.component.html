@@ -90,6 +90,33 @@
   </div>
 
 </section>
+<br><br>
+
+<section>
+  <div class="row">
+    <div class="col-3">
+      <button type="button" class="btn btn-primary js-toggle-luncher-tooltip">1</button>
+    </div>
+    <div class="col-3">
+      <button type="button" class="btn btn-primary js-toggle-luncher-tooltip">2</button>
+    </div>
+    <div class="col-3">
+      <button type="button" class="btn btn-primary js-toggle-luncher-tooltip">3</button>
+    </div>
+    <div class="col-3">
+      <button type="button" class="btn btn-primary js-toggle-luncher-tooltip">4</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <sm-tooltip [luncher]="'.js-toggle-luncher-tooltip'" (onStateChange)="onStateChange($event)">
+        Some text of tooltip
+      </sm-tooltip>
+    </div>
+  </div>
+</section>
+
+
 
 
 {{refToggler.luncherElement}}

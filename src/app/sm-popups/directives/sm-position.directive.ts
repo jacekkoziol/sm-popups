@@ -31,12 +31,11 @@ export class SmPositionDirective {
   private intentionalPosition: intentionalPositionI = {top:0, left:0};
 
   constructor(
-    private currentElement:ElementRef,
-    private renderer:Renderer
+    private currentElement?:ElementRef,
+    private renderer?:Renderer
   ) { }
 
   ngOnInit() {
-    console.log('sm-position directive');
     this.proccessPositioning();
   }
 
