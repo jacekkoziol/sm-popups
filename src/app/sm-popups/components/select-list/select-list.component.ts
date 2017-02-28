@@ -121,6 +121,7 @@ export class SelectListComponent extends ToggleContainerComponent implements OnI
   }
 
   private focusInput() {
+    console.log('mouseenter');
     if (this.inputSearchRef && this.inputSearchRef.nativeElement) {
       this.inputSearchRef.nativeElement.focus();
     }
