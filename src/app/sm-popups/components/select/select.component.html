@@ -1,6 +1,8 @@
 
-<input #refInputModel="ngModel" hidden type="text" class="sm-input-select" name="selectHidden" [(ngModel)]="selectedOption.id">
-<input #refInputLuncher readonly (click)="refTooltip.openToggleContainer()" type="text" class="sm-input-select" name="selectLabel" [(ngModel)]="selectedOption.text" placeholder="{{placeholder}}">
+<input #refInput #refInputModel="ngModel" hidden [attr.required]="required" type="text" class="sm-input-select" [name]="name" [id]="id" [(ngModel)]="selectedOption.id">
+<input #refInputLuncher readonly (click)="refTooltip.openToggleContainer()" type="text" class="sm-input-select {{refInput.className}}" [id]="labelId" [name]="labelName" [value]="selectedOption.text" placeholder="{{placeholder}}">
+
+
 
 <sm-tooltip
   #refTooltip

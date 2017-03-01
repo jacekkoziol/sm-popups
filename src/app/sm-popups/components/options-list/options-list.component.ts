@@ -4,7 +4,6 @@ import { Option } from '../../core/a-models/options';
 interface eventData {
   id: string;
   text: string;
-  filter: string;
   selectedOption: Option;
 }
 
@@ -103,7 +102,6 @@ export class OptionsListComponent implements OnInit, OnChanges {
     this.emitData({
       id: option.id,
       text: option.text,
-      filter: option.id,
       selectedOption: option
     });
   }
@@ -153,7 +151,6 @@ export class OptionsListComponent implements OnInit, OnChanges {
     this.emitData({
       id: this.selectedOption.id,
       text: this.selectedOption.text,
-      filter: this.selectedOption.id,
       selectedOption: this.selectedOption
     });
   }

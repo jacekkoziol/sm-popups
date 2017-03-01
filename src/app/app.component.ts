@@ -34,4 +34,10 @@ export class AppComponent {
   private toggleInputData():void {
     this.tmpCss = 'css-' + Date.now().toString();
   }
+
+  private selectModel;
+
+  private optionSelected($ev):void {
+    console.log('selected: ', $ev);
+  }
 }

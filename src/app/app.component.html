@@ -46,16 +46,17 @@
     </div>
 
     <div class="col-3">
-      <sm-select [options]="tempOptions" [activeOption]="tempOptions[2]"></sm-select>
+      <sm-select [options]="tempOptions" [activeOption]="tempOptions[2]" (onSelect)="optionSelected($event)"></sm-select>
     </div>
     <div class="col-3">
+    </div>
+    <div class="col-3">
+      <!-- <sm-select></sm-select> -->
+    </div>
+    <div class="col-3">
+      <!-- <select >
 
-    </div>
-    <div class="col-3">
-      <!-- <sm-select></sm-select> -->
-    </div>
-    <div class="col-3">
-      <!-- <sm-select></sm-select> -->
+      </select> -->
     </div>
   </div>
 </section>
