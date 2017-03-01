@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, Output, EventEmitter, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter, ElementRef, HostListener, Renderer } from '@angular/core';
 
 @Component({
   selector: 'sm-toggle-container',
@@ -10,17 +10,20 @@ export class ToggleContainerComponent implements OnInit {
 
   @Input() protected isOpen:boolean = false;
   @Input() protected css:string;
-  @Input() protected luncher:string = '';   // usage like document.querySelectorAll(), eg.: [luncher]="'#some-id, .someClass'"
+  @Input() protected luncher:string|HTMLElement = '';   // usage like document.querySelectorAll(), eg.: [luncher]="'#some-id, .someClass'"
+  @Input() protected useLuncherWidth:boolean = false;  //Use luncher width as min-width for tooltip
 
   @Input() protected preventCloseContentClick:boolean = false;   // prevent Close if toggle-container area is clicked
 
   @Output() onStateChange = new EventEmitter<any>();
 
-  public luncherElement:HTMLElement | undefined;
   private allowCloseContainer:boolean = true;
+  public luncherElement:HTMLElement | undefined;
+  public minWidthForTooltip:string = 'auto';
 
   constructor(
-    protected currentComponent:ElementRef
+    protected currentComponent:ElementRef,
+    protected renderer:Renderer
   ) { }
 
   ngOnInit() {
@@ -40,7 +43,7 @@ export class ToggleContainerComponent implements OnInit {
   protected onDocumentClick($ev) {
     let evTarget = this.getElFromEvent($ev);
 
-    if (this.getLunchers.length && this.elementIsLuncher(evTarget, this.getLunchers) && !this.isOpen) {
+    if (this.getLunchersAsArray.length && this.elementIsLuncher(evTarget, this.getLunchersAsArray) && !this.isOpen) {
       this.luncherElement = evTarget;
       this.openToggleContainer();
     } else {
@@ -60,16 +63,47 @@ export class ToggleContainerComponent implements OnInit {
     }
   }
 
+  /*
   protected get getLunchers():NodeList {
+    
+    if(this.luncher instanceof HTMLElement) {
+      let tmpNodeList = new NodeList();
+      return tmpNodeList;
+    }
+
     if(!this.luncher.trim().length) {
       return document.querySelectorAll('_no-string-defined');
     }
 
     return document.querySelectorAll(this.luncher);
   }
+  */
+
+  protected get getLunchersAsArray():HTMLElement[] {
+    let nodeListArray:HTMLElement[] = [];
+
+    if(this.luncher instanceof HTMLElement) {
+      nodeListArray.push(this.luncher);
+    } else if (typeof this.luncher === 'string' && this.luncher.trim().length) {
+      let nodeList = document.querySelectorAll(this.luncher);
+      nodeListArray = Array.prototype.slice.call(nodeList);
+    }
+
+    return nodeListArray;
+  }
+
+  protected setToggleContainerminWidthEqualToLuncherWidth():void {
+    if (this.useLuncherWidth && this.luncherElement) {
+      let luncherRect:ClientRect = this.luncherElement.getBoundingClientRect();
+      this.minWidthForTooltip = luncherRect.width + 'px';
+      this.renderer.setElementStyle(this.currentComponent.nativeElement, 'min-width', luncherRect.width + 'px');
+      console.log('set width', luncherRect.width, this.currentComponent.nativeElement);
+    }
+  }
 
   protected openToggleContainer($ev?):void {
     this.preventCloseDuringOpenning();
+    this.setToggleContainerminWidthEqualToLuncherWidth();
     this.setState(true);
   }
 
@@ -103,12 +137,12 @@ export class ToggleContainerComponent implements OnInit {
     }
   }
 
-
   // Helpers
   protected getElFromEvent(ev) {
     return ev.srcElement || ev.target;
   }
 
+  /*
   protected elementIsLuncher(elementToCheck:HTMLElement, elementsList:NodeList):boolean {
     for (let i=0; i < elementsList.length; i++) {
       if (elementToCheck === elementsList[i]) {
@@ -118,5 +152,14 @@ export class ToggleContainerComponent implements OnInit {
 
     return false;
   }
+  */
+  protected elementIsLuncher(elementToCheck:HTMLElement, elementsList:HTMLElement[]):boolean {
+    for (let i=0; i < elementsList.length; i++) {
+      if (elementToCheck === elementsList[i]) {
+        return true;
+      }
+    }
 
+    return false;
+  }
 }

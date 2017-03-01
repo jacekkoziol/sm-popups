@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, Input} from '@angular/core';
+import { Component, OnInit, ElementRef, Input, Renderer, ViewChild} from '@angular/core';
 import { ToggleContainerComponent } from '../../core/toggle-container/toggle-container.component';
 
 @Component({
@@ -16,12 +16,21 @@ export class TooltipComponent extends ToggleContainerComponent implements OnInit
   @Input() positionPreventAdjust:boolean = false;
 
   constructor(
-    protected currentComponent:ElementRef
+    protected currentComponent:ElementRef,
+    protected renderer:Renderer
   ) {
-    super(currentComponent)
+    super(currentComponent, renderer)
   }
 
   ngOnInit() {
+    //super.
+    console.log(this.minWidthForTooltip);
+  }
+
+  //this.minToggleContainerWidth
+
+  private get getMinWidth():string {
+    return this.minWidthForTooltip;
   }
 
 }

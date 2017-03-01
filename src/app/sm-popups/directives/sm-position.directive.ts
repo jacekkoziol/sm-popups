@@ -80,7 +80,6 @@ export class SmPositionDirective {
 
   private setPositionForCurrentElement():void {
     this.renderer.setElementStyle(this.currentElement.nativeElement, 'position', 'absolute');
-    this.renderer.setElementStyle(this.currentElement.nativeElement, 'z-index', '50');
     this.renderer.setElementStyle(this.currentElement.nativeElement, 'top', this.intentionalPosition.top + 'px');
     this.renderer.setElementStyle(this.currentElement.nativeElement, 'left', this.intentionalPosition.left + 'px');
   }

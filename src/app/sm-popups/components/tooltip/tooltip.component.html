@@ -3,6 +3,7 @@
   smToOverlay
   [smPosition]="position"
   [smPositionLuncher]="positionLuncher || luncherElement"
-  [smPositionPreventAdjust]="positionPreventAdjust">
+  [smPositionPreventAdjust]="positionPreventAdjust"
+  [style.min-width]="getMinWidth">
     <ng-content></ng-content>
 </div>
