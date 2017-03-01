@@ -48,7 +48,7 @@ export class SelectComponent implements OnInit {
   }
 
   private listIsOpen:boolean = false;
-  private selectedOption:Option = this.activeOption;
+  private selectedOption:Option = new Option();
 
   private labelId:string = '';
   private labelName:string = '';
@@ -58,6 +58,7 @@ export class SelectComponent implements OnInit {
 
   ngOnInit() {
     this.setIdAndNameOfSelectField();
+    this.selectedOption = this.activeOption;
   }
 
   private setIdAndNameOfSelectField() {
