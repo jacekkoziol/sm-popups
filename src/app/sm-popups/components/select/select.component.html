@@ -1,15 +1,6 @@
 
 <input #refInputModel="ngModel" hidden type="text" class="sm-input-select" name="selectHidden" [(ngModel)]="selectedOption.id">
-<input #refInputLuncher readonly (click)="refTooltip.openToggleContainer()" type="text" class="sm-input-select" name="selectLabel" [(ngModel)]="selectedOption.text">
-
-<!--div>Selected: {{refTooltip.selectedOption.text}}</div -->
-<!--
-<sm-options-list
-  [options]="options"
-  [activeOption]="activeOption"
-  [hasSearch]="true">
-</sm-options-list>
--->
+<input #refInputLuncher readonly (click)="refTooltip.openToggleContainer()" type="text" class="sm-input-select" name="selectLabel" [(ngModel)]="selectedOption.text" placeholder="{{placeholder}}">
 
 <sm-tooltip
   #refTooltip
@@ -19,33 +10,11 @@
 
     <sm-options-list *ngIf="refTooltip.isOpen"
       [options]="options"
-      [activeOption]="activeOption"
+      [activeOption]="selectedOption"
       [hasSearch]="true"
-      [allowKeyboardNavigation]="true">
+      [allowKeyboardNavigation]="true"
+      [focusInputOnInit]="true"
+      (onChange)="onOptionChange($event)">
     </sm-options-list>
 
 </sm-tooltip>
-
-
-
- <!--
-  <sm-select-list
-    [isOpen]="true"
-    [options]="options"
-    [activeOption]="activeOption"
-    [hasSearch]="true">
-  </sm-select-list>
-  -->
-
-<!--
-<sm-select-list
-  #refTooltip
-  [position]="position"
-  [positionLuncher]="refInputLuncher"
-  [positionPreventAdjust]="false"
-  [options]="options"
-  [activeOption]="activeOption"
-  [hasSearch]="true">
-</sm-select-list>
--->
-

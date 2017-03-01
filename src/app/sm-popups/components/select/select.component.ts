@@ -10,23 +10,23 @@ import { Option } from '../../core/a-models/options';
 export class SelectComponent implements OnInit {
 
   @Input() css:string;
-  @Input() options:Option[];
-  @Input() activeOption:Option;
+  @Input() options:Option[] = [];
+  @Input() activeOption:Option = new Option();
+  @Input() placeholder:string = 'Please select';
 
   @ViewChild('refTooltip') tooltip;
 
   @HostListener('document:keydown', ['$event'])
   private closeTooltip($ev:KeyboardEvent):void {
-    if($ev.keyCode == 13) {
-      this.tooltip && this.tooltip.isOpen && this.tooltip.closeToggleContainer()
+    if($ev.keyCode == 13 && this.tooltip && this.tooltip.isOpen) {
+      setTimeout(()=>{
+        this.tooltip.closeToggleContainer()
+      },0);
     }
   }
 
   private listIsOpen:boolean = false;
-  private selectedOption:Option = {
-    id: 'id_1',
-    text: 'Selected option'
-  }
+  private selectedOption:Option = this.activeOption;
 
   constructor(
   ) {}
@@ -38,6 +38,11 @@ export class SelectComponent implements OnInit {
     this.listIsOpen = !this.listIsOpen;
   }
 
+  private onOptionChange($ev) {
+    setTimeout(() => {
+      this.selectedOption = $ev.selectedOption;
+    }, 0);
+  }
 
 
 }
