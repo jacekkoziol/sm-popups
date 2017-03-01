@@ -1,0 +1,69 @@
+// Component - Select filter
+//------------------------------------------------------------------------------
+
+.select-filter {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  border: 1px solid $color-base-border;
+  min-width: 100px;
+
+  &--borderless {
+    border: none;
+  }
+
+  &--no-search {
+    // No input search
+  }
+}
+
+.select-filter__field {
+  padding: 7px;
+}
+
+.select-filter__input {
+  border-radius: 3px;
+  min-width: 200px;
+}
+
+.select-filter__list {
+  display: block;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.select-filter__item {
+  display: block;
+
+  &:last-of-type .select-filter__option {
+    border-radius: 0 0 $border-radius-base $border-radius-base;
+  }
+
+  .select-filter--no-search.in-tooltip &:first-of-type .select-filter__option {
+    border-radius: $border-radius-base $border-radius-base 0 0;
+  }
+}
+
+.select-filter__option {
+  display: block;
+  width: auto;
+  padding: 7px;
+  color: $color-pelorous;
+  background-color: $color-white;
+  white-space: nowrap;
+
+  &::after {
+    display: none;
+  }
+
+  //&:hover,
+  &.is-hover {
+    background-color: $color-pattens-blue;
+  }
+
+  &.is-active {
+    color: $color-white;
+    background-color: $color-pelorous;
+  }
+}

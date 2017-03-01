@@ -1,60 +1,64 @@
-import { Component, OnInit, OnChanges, ElementRef, Input, Output, EventEmitter, ViewChild} from '@angular/core';
-import { ToggleContainerComponent } from '../../core/toggle-container/toggle-container.component';
+import { Component, OnInit, OnChanges, DoCheck, ElementRef, Input, Output, EventEmitter, ViewChild, HostListener} from '@angular/core';
 import { Option } from '../../core/a-models/options';
 
 interface eventData {
   id: string;
   text: string;
   filter: string;
+  selectedOption: Option;
 }
 
 @Component({
-  selector: 'sm-select-list',
-  templateUrl: './select-list.component.html',
-  styleUrls: ['./select-list.component.scss']
+  selector: 'sm-options-list',
+  templateUrl: './options-list.component.html',
+  styleUrls: ['./options-list.component.scss'],
 })
-export class SelectListComponent extends ToggleContainerComponent implements OnInit, OnChanges {
+export class OptionsListComponent implements OnInit, OnChanges {
 
   @Input() css:string;
 
-  @Input() options:any[];
+  @Input() options:Option[] = [];
   @Input() hasSearch:boolean;
   @Input() resetInput:boolean;
+  @Input() activeOption:Option;
+  @Input() allowKeyboardNavigation:boolean = false;
+  @Input() focusInputOnInit:boolean = false;
   @Output() onChange:EventEmitter<any> = new EventEmitter();
 
   @ViewChild('refInputSearch') inputSearchRef;
 
-  // SmPositionDirective params
-  @Input() position:string|undefined = undefined;
-  @Input() positionLuncher:HTMLElement|undefined = undefined;
-  @Input() positionPreventAdjust:boolean = false;
+  @HostListener('document:keydown', ['$event'])
+  private handleKeyboardNavigation($ev:KeyboardEvent) {
+    if(this.allowKeyboardNavigation) {
+      this.keyboardNavigation($ev);
+    }
+  }
 
   private arrOptions:Option[];
   private arrOptionFiltered:Option[];
   private selectedOptionIndex:number;
   private optionHoverIndex:number;
   private optionsCount:number;
-  public selectedOption:Option;
+  private emptyOption:Option = new Option();
+  public selectedOption:Option = this.emptyOption;
 
-  constructor(
-    protected currentComponent:ElementRef
-  ) {
-    super(currentComponent)
-  }
+  /* helper */
+  private oldOptions:Option[] = this.options;
+  private oldLength = 0;
+  /* helper */
+
+  constructor() { }
 
   ngOnInit() {
     this.formatOptionsList();
     this.filterOptions('');
     this.setDefaultOption();
+    this.focusInputOnInit && this.focusInput();
   }
 
   ngOnChanges (newVal) {
     this.formatOptionsList();
     this.filterOptions('');
-
-    if (newVal.options) {
-      this.setDefaultOption();
-    }
 
     if (newVal.resetInput && newVal.resetInput.currentValue) {
       this.resetInputField();
@@ -62,9 +66,32 @@ export class SelectListComponent extends ToggleContainerComponent implements OnI
     }
   }
 
+  ngDoCheck(val) {
+    if (this.oldOptions !== this.options) {
+      let searchString = (this.inputSearchRef ) ? this.inputSearchRef.nativeElement.value : '';
+      this.oldOptions = this.options;
+      this.oldLength = this.options.length;
+      this.updateOptionsList();
+    } else {
+      let newLength = this.options.length;
+      let old = this.oldLength;
 
-  /* To refactor */
-   private emitData(data:eventData) {
+      if (old !== newLength) {
+        this.oldLength = newLength;
+        this.updateOptionsList();
+      }
+    }
+
+  }
+
+  private updateOptionsList() {
+    let searchString = (this.inputSearchRef ) ? this.inputSearchRef.nativeElement.value : '';
+    this.formatOptionsList();
+    this.filterOptions(searchString);
+    this.setDefaultOption();
+  }
+
+  private emitData(data:eventData) {
     this.onChange.emit(data);
   }
 
@@ -76,6 +103,7 @@ export class SelectListComponent extends ToggleContainerComponent implements OnI
       id: option.id,
       text: option.text,
       filter: option.id,
+      selectedOption: option
     });
   }
 
@@ -99,11 +127,23 @@ export class SelectListComponent extends ToggleContainerComponent implements OnI
   }
 
   private setDefaultOption():void {
-    if (this.arrOptions && this.arrOptions.length) {
-      this.selectedOption = this.arrOptions[0];
-      this.selectedOptionIndex = 0;
+
+    if (this.arrOptions && this.arrOptions.length && this.activeOption) {
+      let defaultOptionIndex = this.arrOptions.findIndex(option => option.id === this.activeOption.id);
+      let currentSelectedOptionIndex = this.arrOptions.findIndex(option => option.id === this.selectedOption.id);
+
+      if(this.selectedOption !== this.emptyOption && currentSelectedOptionIndex != -1) {
+        // Just Do Nothing
+      } else if(defaultOptionIndex != -1) {
+        this.selectedOption = this.arrOptions[defaultOptionIndex];
+        this.selectedOptionIndex = defaultOptionIndex;
+      } else {
+        this.selectedOption = this.emptyOption;
+        this.selectedOptionIndex = 0;
+      }
+
     } else {
-      this.selectedOption = {id: '', text:''}
+      this.selectedOption = this.emptyOption;
       this.selectedOptionIndex = 0;
     }
 
@@ -113,6 +153,7 @@ export class SelectListComponent extends ToggleContainerComponent implements OnI
       id: this.selectedOption.id,
       text: this.selectedOption.text,
       filter: this.selectedOption.id,
+      selectedOption: this.selectedOption
     });
   }
 
@@ -121,7 +162,6 @@ export class SelectListComponent extends ToggleContainerComponent implements OnI
   }
 
   private focusInput() {
-    console.log('mouseenter');
     if (this.inputSearchRef && this.inputSearchRef.nativeElement) {
       this.inputSearchRef.nativeElement.focus();
     }
@@ -139,15 +179,18 @@ export class SelectListComponent extends ToggleContainerComponent implements OnI
     }
   }
 
-  private keyboardNavigation($ev) {
+  private keyboardNavigation($ev:KeyboardEvent) {
     switch ($ev.keyCode) {
       case 38: // Up
+        $ev.preventDefault();
         this.hoverPrevOption();
         break;
       case 40: // Down
+        $ev.preventDefault();
         this.hoverNextOption();
         break;
       case 13: // Enter
+        $ev.preventDefault();
         this.selectOption(this.arrOptionFiltered[this.optionHoverIndex], this.optionHoverIndex);
         break;
       case 27: // Esc
@@ -184,12 +227,12 @@ export class SelectListComponent extends ToggleContainerComponent implements OnI
             text: el
           })
         } else {
-          console.error('[app-select-filter]:: Wrong input data format.');
+          console.error('[sm-select-list]:: Wrong input data format.');
         }
       });
     } else {
       this.arrOptions = [];
-      console.error('[app-select-filter]:: No options defined.');
+      console.error('[sm-select-list]:: No options defined.');
     }
   }
 

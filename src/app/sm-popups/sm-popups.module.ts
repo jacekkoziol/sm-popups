@@ -8,7 +8,7 @@ import { ToggleContainerComponent } from './core/toggle-container/toggle-contain
 import { SmPositionDirective } from './directives/sm-position.directive';
 import { TooltipComponent } from './components/tooltip/tooltip.component';
 import { SelectComponent } from './components/select/select.component';
-import { SelectListComponent } from './components/select-list/select-list.component';
+import { OptionsListComponent } from './components/options-list/options-list.component';
 
 //import './core/_core.scss';
 
@@ -24,7 +24,7 @@ import { SelectListComponent } from './components/select-list/select-list.compon
     SmPositionDirective,
     TooltipComponent,
     SelectComponent,
-    SelectListComponent
+    OptionsListComponent
   ],
   exports: [
     OverlayComponent,
@@ -32,7 +32,8 @@ import { SelectListComponent } from './components/select-list/select-list.compon
     //SmToOverlayDirective,
     //SmPositionDirective,
     TooltipComponent,
-    SelectComponent
+    SelectComponent,
+    OptionsListComponent
   ],
   providers: []
 })

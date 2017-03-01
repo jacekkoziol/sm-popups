@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild} from '@angular/core';
+import { Component, OnInit, Input, ViewChild, HostListener} from '@angular/core';
 import { ToggleContainerComponent } from '../../core/toggle-container/toggle-container.component';
 import { Option } from '../../core/a-models/options';
 
@@ -11,6 +11,16 @@ export class SelectComponent implements OnInit {
 
   @Input() css:string;
   @Input() options:Option[];
+  @Input() activeOption:Option;
+
+  @ViewChild('refTooltip') tooltip;
+
+  @HostListener('document:keydown', ['$event'])
+  private closeTooltip($ev:KeyboardEvent):void {
+    if($ev.keyCode == 13) {
+      this.tooltip && this.tooltip.isOpen && this.tooltip.closeToggleContainer()
+    }
+  }
 
   private listIsOpen:boolean = false;
   private selectedOption:Option = {
@@ -27,5 +37,7 @@ export class SelectComponent implements OnInit {
   private openList():void {
     this.listIsOpen = !this.listIsOpen;
   }
+
+
 
 }

@@ -38,21 +38,44 @@
 <section class="container mt-5">
   <h1>Select</h1>
 
+
+
   <div class="row">
+    <div class="col-12 mt-4 mb-4">
+      <button class="btn btn-success" (click)="updateOptions()">Updated options</button>
+    </div>
+
     <div class="col-3">
-      <sm-select [options]="tempOptions"></sm-select>
+      <sm-select [options]="tempOptions" [activeOption]="tempOptions[2]"></sm-select>
     </div>
     <div class="col-3">
 
     </div>
     <div class="col-3">
-      <sm-select></sm-select>
+      <!-- <sm-select></sm-select> -->
     </div>
     <div class="col-3">
-      <sm-select></sm-select>
+      <!-- <sm-select></sm-select> -->
     </div>
   </div>
 </section>
+
+<!--
+<section class="container">
+  <div class="row div col-4 mt-4">
+    <sm-options-list
+      [css]="tmpCss"
+      [options]="tempOptions"
+      [activeOption]="tempOptions[2]"
+      [hasSearch]="true">
+    </sm-options-list>
+  </div>
+
+  <div class="col-2">
+    <button class="btn btn-warning" (click)="toggleInputData()">Toggle class</button>
+  </div>
+</section>
+-->
 
 
 <!-- Styles Import -->

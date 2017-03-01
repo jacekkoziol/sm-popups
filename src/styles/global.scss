@@ -1,0 +1,247 @@
+/*
+ ** Global settings
+ ** -----------------------------------------------------------------------------*/
+
+// Colors
+//----------------------------------------
+$color-white: #FFF;
+$color-black: #000;
+
+$color-text-base:         #4E4E4E !default;
+$color-text-light:        #9a9a9a !default;
+$color-body-bg:           #FFFFFF !default;
+$color-base-border:       #cacaca !default;
+
+$color-nero:              #1E1E1E !default;
+$color-night:             #333333 !default;
+$color-charcoal:          #414141 !default;
+$color-raven:             #657380 !default;
+$color-zambezi:           #5f5f5f !default;
+$color-matternhorn:       #535252 !default;
+$color-just-grey:         #7F7F7F !default;
+$color-slate-grey:        #7b8a99 !default;
+$color-dim-grey:          #676767 !default;
+$color-suva-grey:         #8D8D8D !default;
+$color-nobel:             #A2A2A2 !default;
+$color-light-grey:        #CBCBCB !default;
+$color-whisper:           #EAEAEA !default;
+$color-white-smoke:       #F4F4F4 !default;
+$color-black-pearl:       #001D31 !default;
+$color-tangaroa:          #01243D !default;
+$color-regal-blue:        #0A3C55 !default;
+$color-astronaut-blue:    #1F445B !default;
+$color-dark-blue:         #014b7a !default;
+$color-prussian-blue:     #05406A !default;
+$color-blue-bright:       #2C48B5 !default;
+$color-blue:              #0b71ac !default;
+$color-pelorous:          #1989C9 !default;
+$color-curious-blue:      #348CBE !default;
+$color-malibu:            #63C2E2 !default;
+$color-shakespeare:       #6897B4 !default;
+$color-rock-blue:         #9EBED1 !default;
+$color-cornflower:        #96CBEA !default;
+$color-columbia-blue:     #A2DBFF !default;
+$color-pattens-blue:      #C5E9FF !default;
+$color-dark-cyan:         #088A89 !default;
+$color-jade:              #18AA6E !default;
+$color-lime:              #679D2E !default;
+$color-turquoise:         #54D2D1 !default;
+$color-azure:             #EDFFFF !default;
+$color-sunset:            #C84343 !default;
+$color-pumpkin:           #F07215 !default;
+$color-gamboge:           #D9940E !default;
+$color-orange:            #FFA800 !default;
+$color-orange-tangerine:  #FBB113 !default;
+$color-sun-juan:          #3F535E !default;
+$color-wedgewood:         #4D657A !default;
+$color-pink:              #E5B1B1 !default;
+$color-pink-light:        #FFF9F9 !default;
+$color-grey:              #E3E8EA !default;
+$color-silver:            #F7F7F7 !default;
+$color-dark-silver:       #E5E5E5 !default;
+$color-light-yellow:      #FAF0D7 !default;
+$color-arapawa:           #214964 !default;
+
+// Apps colors definition
+$color-app-auto:          #C84343 !default;
+$color-app-home:          #2875A2 !default;
+$color-app-dwelling:      #CF720E !default;
+$color-app-umbrella:      #52871A !default;
+$color-app-client:        #425e76 !default;
+
+
+$mapColors: (
+  white:           $color-white,
+  black:             $color-black,
+  nero:              $color-nero,
+  night:             $color-night,
+  charcoal:          $color-charcoal,
+  raven:             $color-raven,
+  zambezi:           $color-zambezi,
+  matternhorn:       $color-matternhorn,
+  just-grey:         $color-just-grey,
+  slate-grey:        $color-slate-grey,
+  dim-grey:          $color-dim-grey,
+  suva-grey:         $color-suva-grey,
+  light-grey:        $color-light-grey,
+  whisper:           $color-whisper,
+  white-smoke:       $color-white-smoke,
+  black-pearl:       $color-black-pearl,
+  tangaroa:          $color-tangaroa,
+  regal-blue:        $color-regal-blue,
+  astronaut-blue:    $color-astronaut-blue,
+  dark-blue:         $color-dark-blue,
+  prussian-blue:     $color-prussian-blue,
+  blue-bright:       $color-blue-bright,
+  blue:              $color-blue,
+  pelorous:          $color-pelorous,
+  curious-blue:      $color-curious-blue,
+  malibu:            $color-malibu,
+  shakespeare:       $color-shakespeare,
+  rock-blue:         $color-rock-blue,
+  cornflower:        $color-cornflower,
+  columbia-blue:     $color-columbia-blue,
+  pattens-blue:      $color-pattens-blue,
+  dark-cyan:         $color-dark-cyan,
+  jade:              $color-jade,
+  lime:              $color-lime,
+  turquoise:         $color-turquoise,
+  azure:             $color-azure,
+  sunset:            $color-sunset,
+  pumpkin:           $color-pumpkin,
+  gamboge:           $color-gamboge,
+  orange:            $color-orange,
+  sun-juan:          $color-sun-juan,
+  wedgewood:         $color-wedgewood,
+  pink:              $color-pink,
+  pink-light:        $color-pink-light,
+  grey:              $color-grey,
+  silver:            $color-silver,
+  dark-silver:       $color-dark-silver,
+  app-auto:          $color-app-auto,
+  app-home:          $color-app-home,
+  app-dwelling:      $color-app-dwelling,
+  app-umbrella:      $color-app-umbrella,
+  app-client:        $color-app-client,
+  light-yellow:      $color-light-yellow,
+  arapawa:           $color-arapawa
+);
+
+// Default scrollbar
+$scrollbar-width: 17px;
+
+// Template config
+//----------------------------------------
+$template-header-height:        50px;
+$template-aside-width:          190px;
+$template-dashboard-min-width:  1024px - $scrollbar-width;//1024px;
+$template-dashboard-max-width:  2000px;
+
+// Template Overlay
+$template-overlay-header-height:      60px;
+$template-overlay-subheader-height:   60px;
+$template-overlay-footer-height:      35px;
+$template-overlay-right-aside-width:  340px;
+
+// Fonts
+//----------------------------------------
+$font-base: 'Open Sans', Arial, Verdana, Helvetica, sans-serif;
+
+$font-color:            $color-sun-juan !default;
+$font-family:           $font-base !default;
+$font-size:             13px !default;
+$font-weight:           600 !default;
+$font-weight-light:     400 !default;
+$font-line-height:      1.2 !default;
+
+// Border radius
+//----------------------------------------
+$border-radius-base: 5px !default;
+
+
+// Z-indexes
+//----------------------------------------
+$zindex-negative:       -1 !default;
+$zindex-neutral:        0 !default;
+$zindex-base:           1 !default;
+$zindex-utils:          5 !default;
+$zindex-head:           10 !default;
+$zindex-warnings:       20 !default;
+$zindex-tooltip:        1000 !default;
+$zindex-modal:          1050 !default;
+$zindex-overlay:        2000 !default;
+
+
+// Transition timing
+//----------------------------------------
+$transition-links-timing: .1s;
+$transition-btn-timing: .2s;
+
+// Sections config
+$section-h-padding:     24px !default;
+$section-v-padding:     15px !default;
+
+// Bootstrap grid configuration (sections uses grid-gutter as padding)
+//----------------------------------------
+$grid-columns:      12;
+$grid-gutter-width-base: 28px;
+
+$grid-gutter-widths: (
+  xs: $grid-gutter-width-base,
+  sm: $grid-gutter-width-base,
+  md: $grid-gutter-width-base,
+  lg: $grid-gutter-width-base,
+  xl: $grid-gutter-width-base
+);
+
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+);
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1200px //1140px
+);
+
+
+// Custom max breakepoints
+//----------------------------------------
+$grid-breakpoints-max: (
+  xs: map-get($grid-breakpoints , sm) - 1,
+  sm: map-get($grid-breakpoints , md) - 1,
+  md: map-get($grid-breakpoints , lg) - 1,
+  lg: map-get($grid-breakpoints , xl) - 1,
+  xl: map-get($grid-breakpoints , xl) + 4000
+);
+
+// Paddings
+//----------------------------------------
+$padding-small: 5px;
+$padding-medium: $padding-small * 2;
+$padding-large: $padding-small * 3;
+$padding-xlarge: $padding-small * 6;
+
+// Forms
+//----------------------------------------
+$checkbox-width: 17px;
+
+
+// Box component
+//----------------------------------------
+$box-padding-top: 1.5rem;
+$box-padding-bottom: 1.5rem;
+$box-padding-left:  1.8rem;
+$box-padding-right: 1.8rem;
+
+// Fixed dimensions
+//----------------------------------------
+
+$textarea: 100px;
+$input:    $textarea;
