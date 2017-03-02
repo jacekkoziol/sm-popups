@@ -78,6 +78,10 @@ export class SmPositionDirective {
     this.setPositionForCurrentElement();
   }
 
+
+  /**
+   * Positioning methods
+   */
   private calcDefaultPosition(): void {
     this.intentionalPosition.top = this.targetElPosition.top + this.targetElPosition.height;
     this.intentionalPosition.left = this.targetElPosition.left;
@@ -89,6 +93,8 @@ export class SmPositionDirective {
     this.intentionalPosition.left = this.targetElPosition.left;
   }
 
+
+  // -----
   private setPositionForCurrentElement():void {
     this.renderer.setElementStyle(this.currentElement.nativeElement, 'position', 'absolute');
     this.renderer.setElementStyle(this.currentElement.nativeElement, 'top', this.intentionalPosition.top + 'px');
