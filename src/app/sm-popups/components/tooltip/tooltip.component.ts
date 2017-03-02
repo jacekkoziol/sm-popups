@@ -27,6 +27,8 @@ export class TooltipComponent extends ToggleContainerComponent implements OnInit
 
   private get getMinWidth():string {
     return this.minWidthForTooltip;
+
+    //return this.minWidthForTooltip && 'min-width:'+ this.minWidthForTooltip;
   }
 
 }

@@ -39,21 +39,14 @@ export class AppComponent implements OnInit{
     //console.log('app.component', this.tempStrOptions);
   }
 
-  title = 'app works!';
 
   private onStateChange($ev) {
     console.log('app.component, onStateChange: ', $ev);
   }
 
-  
-
   private updateOptions():void {
     let id = Date.now().toString();
     this.tempOptions.push(new Option(id, 'Option ' + id));
-
-    //this.tempOptions = Object.assign({}, this.tempOptions);
-
-    console.log(this.tempOptions);
   }
 
   private tmpCss = 'someCss'

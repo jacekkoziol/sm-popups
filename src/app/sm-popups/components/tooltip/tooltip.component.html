@@ -1,9 +1,9 @@
 <div class="sm-popup sm-tooltip {{css}}" *ngIf="isOpen"
+  [style.min-width]="getMinWidth"
   [class.is-active]="isOpen"
   smToOverlay
   [smPosition]="position"
   [smPositionLuncher]="positionLuncher || luncherElement"
-  [smPositionPreventAdjust]="positionPreventAdjust"
-  [style.min-width]="getMinWidth">
+  [smPositionPreventAdjust]="positionPreventAdjust">
     <ng-content></ng-content>
 </div>

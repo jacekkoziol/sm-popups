@@ -1,16 +1,14 @@
-<h1>
-  {{title}}
-</h1>
+<section class="container mb-4">
+  <div class="row">
+    <div class="col-12">
+      <h1>sm-popups module</h1>
+    </div>
+  </div>
+</section>
 
-<p class="test" smToOverlay>Par 1</p>
-<p class="test">Par 2</p>
-<p class="test">Par 3</p>
-<p class="test" smToOverlay>Par 4</p>
-
-<button type="button" id="toggleBtn" class="btn btn-primary js-toggle-luncher">Toggle Container</button>
 
 <section class="container" style="min-width:1000px">
-  <h1>Tooltip</h1>
+  <h3>Tooltip</h3>
 
   <div class="row">
     <div class="col-3">
@@ -28,7 +26,7 @@
   </div>
   <div class="row">
     <div class="col-12">
-      <sm-tooltip [luncher]="'.js-toggle-luncher-tooltip'" (onStateChange)="onStateChange($event)">
+      <sm-tooltip [css]="'tmpTooltip'" [luncher]="'.js-toggle-luncher-tooltip'" (onStateChange)="onStateChange($event)">
         Some text of tooltip
       </sm-tooltip>
     </div>
@@ -36,9 +34,7 @@
 </section>
 
 <section class="container mt-5">
-  <h1>Select</h1>
-
-
+  <h3>Select</h3>
 
   <div class="row">
     <div class="col-12 mt-4 mb-4">

@@ -19,7 +19,7 @@ export class ToggleContainerComponent implements OnInit {
 
   private allowCloseContainer:boolean = true;
   public luncherElement:HTMLElement | undefined;
-  public minWidthForTooltip:string = 'auto';
+  public minWidthForTooltip:string = '';
 
   constructor(
     protected currentComponent:ElementRef,

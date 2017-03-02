@@ -18,8 +18,8 @@ input[type="text"] {
  ** -----------------------------------------------------------------------------*/
 
 .sm-overlay-container {
-  padding: 40px;
-  background: rgba(red, .1);
+  padding: 0;
+  //background: rgba(red, .1);
   pointer-events: none;
   position: fixed;
   left: 0;
@@ -31,4 +31,13 @@ input[type="text"] {
   * {
     pointer-events: auto;
   }
+}
+
+.tmpTooltip {
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(black, .7);
+  background: #FFF;
+  border-radius: 3px;
+  margin-top: 10px;
+  min-width: 350px;
 }

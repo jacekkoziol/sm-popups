@@ -59,6 +59,7 @@ export class SmPositionDirective {
       }
 
       this.adjustPosition();
+      setTimeout(()=>{this.adjustPosition()});
     }
   }
 
@@ -100,7 +101,7 @@ export class SmPositionDirective {
     let currentElRight = viewport.width - tmpCurrElPos.right;
     let currentElBottom = viewport.height - tmpCurrElPos.bottom;
 
-    const POSITION_MAX_OVERSET = 10;
+    const POSITION_MAX_OVERSET = POSITION_ADJUST_MARGIN;
 
     // Right position
     if (currentElRight < POSITION_MAX_OVERSET && tmpCurrElPos.left >= POSITION_MAX_OVERSET) {
@@ -127,7 +128,8 @@ export class SmPositionDirective {
     }
 
     if (this.intentionalPosition.left < POSITION_MAX_OVERSET) {
-      this.intentionalPosition.left = this.targetElPosition.left;//POSITION_MAX_OVERSET;
+      //this.intentionalPosition.left = this.targetElPosition.left;//POSITION_MAX_OVERSET;
+      this.intentionalPosition.left = POSITION_MAX_OVERSET;
     }
 
     this.setPositionForCurrentElement();
