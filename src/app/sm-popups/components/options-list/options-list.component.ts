@@ -33,7 +33,7 @@ export class OptionsListComponent implements OnInit, OnChanges {
     }
   }
 
-  private activeOptionToSelect:Option;
+  private activeOptionToSelect:Option|undefined;
   private arrOptions:Option[];
   private arrOptionFiltered:Option[];
   private selectedOptionIndex:number;
@@ -129,7 +129,6 @@ export class OptionsListComponent implements OnInit, OnChanges {
   }
 
   private setDefaultOption():void {
-
     if (this.arrOptions && this.arrOptions.length && this.activeOptionToSelect) {
       let defaultOptionIndex = this.arrOptions.findIndex(option => option.id === this.activeOptionToSelect.id);
       let currentSelectedOptionIndex = this.arrOptions.findIndex(option => option.id === this.selectedOption.id);
@@ -234,7 +233,7 @@ export class OptionsListComponent implements OnInit, OnChanges {
 
   private convertOptionFromAnyTypeToOption(option:any):Option|undefined {
     if(!option) {
-      return undefined;
+      return;
     }
 
     if (typeof option == 'object' &&  'id' in option && 'text' in option) {

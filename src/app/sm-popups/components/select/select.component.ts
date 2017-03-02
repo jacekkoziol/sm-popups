@@ -12,7 +12,7 @@ export class SelectComponent implements OnInit {
 
   @Input() css:string;
   @Input() options:any[]; //Option[] = [];
-  @Input() activeOption:Option = new Option();
+  @Input() activeOption:any; //:Option = new Option();
   @Input() hasSearch:boolean = false;
 
   @Input() placeholder:string = 'Please select';
@@ -46,10 +46,10 @@ export class SelectComponent implements OnInit {
 
   ngOnInit() {
     this.setIdAndNameOfSelectField();
-    this.selectedOption = this.activeOption;
+    this.selectedOption = this.convertOptionFromAnyTypeToOption(this.activeOption) || new Option();
   }
 
-  private setIdAndNameOfSelectField() {
+  private setIdAndNameOfSelectField():void {
     let strIdName = 'select-like_' + this.generateUUID();
 
     this.id = this.id || strIdName;
@@ -59,7 +59,7 @@ export class SelectComponent implements OnInit {
     this.labelName= this.name + '_label';
   }
 
-  private onOptionChange($ev) {
+  private onOptionChange($ev):void {
     setTimeout(() => {
       this.selectedOption = $ev.selectedOption;
 
@@ -68,7 +68,7 @@ export class SelectComponent implements OnInit {
     }, 0);
   }
 
-  private emitData(data) {
+  private emitData(data):void {
     this.onSelect.emit(data);
   }
 
@@ -76,6 +76,20 @@ export class SelectComponent implements OnInit {
   // Helper
   private generateUUID():string {
     return Math.floor((1 + Math.random()) * 0x10000000000).toString(16);
+  }
+
+  private convertOptionFromAnyTypeToOption(option:any):Option|undefined {
+    if(!option) {
+      return;
+    }
+
+    if (typeof option == 'object' &&  'id' in option && 'text' in option) {
+      return option;
+    } else if (typeof option === 'string' || typeof option === 'number') {
+      return new Option(String(option), String(option));
+    }
+
+    return;
   }
 
 }
