@@ -23,13 +23,14 @@ export class SelectComponent implements OnInit, OnChanges {
   @Output() onSelect:EventEmitter<any> = new EventEmitter();
 
 
-  @ViewChild('refTooltip') tooltip;
+  @ViewChild('refTooltip') private tooltip;
+  @ViewChild('refOptonsList') private refOptionsList;
   @ViewChild('refInputModel') private refInputModel:NgModel;
 
 
   @HostListener('document:keydown', ['$event'])
   private closeTooltip($ev:KeyboardEvent):void {
-    if($ev.keyCode == 13 && this.tooltip && this.tooltip.isOpen) {
+    if($ev.keyCode == 13 && this.tooltip && this.tooltip.isOpen && this.refOptionsList && this.refOptionsList.optionsCount ) {
       setTimeout(()=>{
         this.tooltip.closeToggleContainer()
       },0);

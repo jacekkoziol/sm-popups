@@ -11,6 +11,7 @@
   [positionPreventAdjust]="false">
 
     <sm-options-list *ngIf="refTooltip.isOpen"
+      #refOptonsList
       [css]="'select-filter--full-width'"
       [options]="optionsList"
       [activeOption]="selectedOption"

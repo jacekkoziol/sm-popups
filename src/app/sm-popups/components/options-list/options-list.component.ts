@@ -38,8 +38,8 @@ export class OptionsListComponent implements OnInit, OnChanges {
   private arrOptionFiltered:Option[];
   private selectedOptionIndex:number;
   private optionHoverIndex:number;
-  private optionsCount:number;
   private emptyOption:Option = new Option();
+  public optionsCount:number;
   public selectedOption:Option = this.emptyOption;
 
   /* helper */
