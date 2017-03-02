@@ -15,6 +15,10 @@
   &--no-search {
     // No input search
   }
+
+  &--full-width {
+    width: 100%;
+  }
 }
 
 .select-filter__field {

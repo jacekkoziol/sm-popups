@@ -26,6 +26,7 @@ export class SelectComponent implements OnInit {
   @Input() css:string;
   @Input() options:Option[] = [];
   @Input() activeOption:Option = new Option();
+  @Input() hasSearch:boolean = false;
 
   @Input() placeholder:string = 'Please select';
   @Input() name:string = '';
