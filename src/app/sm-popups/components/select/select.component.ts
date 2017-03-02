@@ -80,7 +80,7 @@ export class SelectComponent implements OnInit, OnChanges {
   }
 
   private updateOptionsList():void {
-    this.optionsList = this.options;
+    this.optionsList = this.options || [];
   }
 
   private updateSelectedOption():void {
