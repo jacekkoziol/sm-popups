@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, ViewChild, HostListener, EventEmitter, forwardRef} from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, ViewChild, HostListener, EventEmitter, forwardRef} from '@angular/core';
 
 import { ToggleContainerComponent } from '../../core/toggle-container/toggle-container.component';
 import { Option } from '../../core/a-models/options';
@@ -8,7 +8,7 @@ import { Option } from '../../core/a-models/options';
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.scss'],
 })
-export class SelectComponent implements OnInit {
+export class SelectComponent implements OnInit, OnChanges {
 
   @Input() css:string;
   @Input() options:any[]; //Option[] = [];
@@ -37,6 +37,7 @@ export class SelectComponent implements OnInit {
 
   private listIsOpen:boolean = false;
   private selectedOption:Option = new Option();
+  private optionsList:Option[] = [];
 
   private labelId:string = '';
   private labelName:string = '';
@@ -46,7 +47,13 @@ export class SelectComponent implements OnInit {
 
   ngOnInit() {
     this.setIdAndNameOfSelectField();
-    this.selectedOption = this.convertOptionFromAnyTypeToOption(this.activeOption) || new Option();
+    this.updateOptionsList();
+    this.updateSelectedOption();
+  }
+
+  ngOnChanges(newVal) {
+    this.updateOptionsList();
+    this.updateSelectedOption();
   }
 
   private setIdAndNameOfSelectField():void {
@@ -72,6 +79,13 @@ export class SelectComponent implements OnInit {
     this.onSelect.emit(data);
   }
 
+  private updateOptionsList():void {
+    this.optionsList = this.options;
+  }
+
+  private updateSelectedOption():void {
+    this.selectedOption = this.convertOptionFromAnyTypeToOption(this.activeOption) || new Option();
+  }
 
   // Helper
   private generateUUID():string {
