@@ -53,7 +53,7 @@ export class OptionsListComponent implements OnInit, OnChanges {
     this.formatActiveOption();
     this.formatOptionsList();
     this.filterOptions('');
-    this.setDefaultOption();
+    //this.setDefaultOption();
 
     this.focusInputOnInit && setTimeout(()=>{ this.focusInput()}, 0);
   }
