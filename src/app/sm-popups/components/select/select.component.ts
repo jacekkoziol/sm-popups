@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, Output, ViewChild, HostListener, EventEmitter, forwardRef} from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, ViewChild, HostListener, EventEmitter} from '@angular/core';
 import { NgModel } from '@angular/forms';
 import { ToggleContainerComponent } from '../../core/toggle-container/toggle-container.component';
 import { Option } from '../../core/a-models/options';
@@ -53,7 +53,7 @@ export class SelectComponent implements OnInit, OnChanges {
     this.setIdAndNameOfSelectField();
     this.updateOptionsList();
     this.updateSelectedOption();
-    setTimeout(() => {this.ngModel = this.refInputModel})
+    setTimeout(() => {this.ngModel = this.refInputModel});
   }
 
   ngOnChanges(newVal) {
