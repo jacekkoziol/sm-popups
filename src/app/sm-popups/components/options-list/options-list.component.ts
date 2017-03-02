@@ -232,7 +232,7 @@ export class OptionsListComponent implements OnInit, OnChanges {
   }
 
   private convertOptionFromAnyTypeToOption(option:any):Option|undefined {
-    if(!option) {
+    if(option === undefined) {
       return;
     }
 
