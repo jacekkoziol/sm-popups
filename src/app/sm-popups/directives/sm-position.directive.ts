@@ -1,9 +1,11 @@
-import { Directive, OnInit, OnDestroy, Input, ElementRef, Renderer} from '@angular/core';
+import { Directive, OnInit, OnDestroy, Input, ElementRef, Renderer, HostListener} from '@angular/core';
 
 interface intentionalPositionI {
   top: number;
   left: number;
 }
+
+const POSITION_ADJUST_MARGIN = 10; //in pixels
 
 @Directive({
   selector: '[smPosition]'
@@ -26,6 +28,15 @@ export class SmPositionDirective {
    * @description Prevent to adjust position
    */
   @Input() smPositionPreventAdjust:boolean = false;
+
+  /**
+   * @description Adjust position on resize
+   */
+  @HostListener('window:resize', ['$event'])
+  private onWindowResize($ev) {
+    //console.log('resized');
+    this.resizeAdjustPositionHandler();
+  }
 
   private targetElPosition:ClientRect;
   private intentionalPosition: intentionalPositionI = {top:0, left:0};
@@ -90,27 +101,41 @@ export class SmPositionDirective {
     let currentElRight = viewport.width - tmpCurrElPos.right;
     let currentElBottom = viewport.height - tmpCurrElPos.bottom;
 
+    const POSITION_MAX_OVERSET = 10;
+
     // Right position
-    if (currentElRight < 0 && tmpCurrElPos.left >= 0) {
-      this.intentionalPosition.left = this.intentionalPosition.left - Math.abs(currentElRight);
+    if (currentElRight < POSITION_MAX_OVERSET && tmpCurrElPos.left >= POSITION_MAX_OVERSET) {
+      this.intentionalPosition.left = this.intentionalPosition.left - (Math.abs(currentElRight) + POSITION_ADJUST_MARGIN);
     }
 
     // Bottom
-    if (currentElBottom < 0 && tmpCurrElPos.top >=0) {
-      this.intentionalPosition.top = this.intentionalPosition.top - Math.abs(currentElBottom);
+    if (currentElBottom < POSITION_MAX_OVERSET && tmpCurrElPos.top >= POSITION_MAX_OVERSET) {
+      this.intentionalPosition.top = this.intentionalPosition.top - (Math.abs(currentElBottom) + POSITION_ADJUST_MARGIN);
     }
 
     // Top position
-    if (tmpCurrElPos.top < 0) {
-      this.intentionalPosition.top = this.targetElPosition.top + Math.abs(this.targetElPosition.top);
+    if (tmpCurrElPos.top < POSITION_MAX_OVERSET) {
+      this.intentionalPosition.top = this.targetElPosition.top + Math.abs(this.targetElPosition.top) + POSITION_ADJUST_MARGIN;
+    }
+
+    if (this.intentionalPosition.top < POSITION_MAX_OVERSET) {
+      this.intentionalPosition.top = POSITION_MAX_OVERSET;
     }
 
     // Left position
-    if (tmpCurrElPos.left < 0) {
-      this.intentionalPosition.left = this.targetElPosition.left + Math.abs(this.targetElPosition.left);
+    if (tmpCurrElPos.left < POSITION_MAX_OVERSET) {
+      this.intentionalPosition.left = this.targetElPosition.left + Math.abs(this.targetElPosition.left) + POSITION_ADJUST_MARGIN;
+    }
+
+    if (this.intentionalPosition.left < POSITION_MAX_OVERSET) {
+      this.intentionalPosition.left = this.targetElPosition.left;//POSITION_MAX_OVERSET;
     }
 
     this.setPositionForCurrentElement();
+  }
+
+  private resizeAdjustPositionHandler():void {
+    this.proccessPositioning();
   }
 
 }
