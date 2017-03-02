@@ -52,14 +52,14 @@ export class ToggleContainerComponent implements OnInit {
         return;
       }
 
-      this.closeToggleContainer();
+      this.closeToggleContainerIfOpen();
     }
   }
 
   @HostListener('document:keydown', ['$event'])
   protected onKeyPress($ev:KeyboardEvent) {
     if ($ev.keyCode == 27) {
-      this.closeToggleContainer();
+      this.closeToggleContainerIfOpen();
     }
   }
 
@@ -88,6 +88,10 @@ export class ToggleContainerComponent implements OnInit {
     this.preventCloseDuringOpenning();
     this.setToggleContainerminWidthEqualToLuncherWidth();
     this.setState(true);
+  }
+
+  private closeToggleContainerIfOpen($ev?):void {
+    this.isOpen && this.closeToggleContainer($ev);
   }
 
   public closeToggleContainer($ev?):void {
