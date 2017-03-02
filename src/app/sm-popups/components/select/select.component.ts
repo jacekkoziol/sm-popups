@@ -22,11 +22,9 @@ export class SelectComponent implements OnInit, OnChanges {
 
   @Output() onSelect:EventEmitter<any> = new EventEmitter();
 
-
   @ViewChild('refTooltip') private tooltip;
   @ViewChild('refOptonsList') private refOptionsList;
   @ViewChild('refInputModel') private refInputModel:NgModel;
-
 
   @HostListener('document:keydown', ['$event'])
   private closeTooltip($ev:KeyboardEvent):void {
