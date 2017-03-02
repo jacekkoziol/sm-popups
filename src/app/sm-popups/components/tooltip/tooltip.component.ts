@@ -23,11 +23,7 @@ export class TooltipComponent extends ToggleContainerComponent implements OnInit
   }
 
   ngOnInit() {
-    //super.
-    console.log(this.minWidthForTooltip);
   }
-
-  //this.minToggleContainerWidth
 
   private get getMinWidth():string {
     return this.minWidthForTooltip;

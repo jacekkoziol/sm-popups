@@ -63,22 +63,6 @@ export class ToggleContainerComponent implements OnInit {
     }
   }
 
-  /*
-  protected get getLunchers():NodeList {
-    
-    if(this.luncher instanceof HTMLElement) {
-      let tmpNodeList = new NodeList();
-      return tmpNodeList;
-    }
-
-    if(!this.luncher.trim().length) {
-      return document.querySelectorAll('_no-string-defined');
-    }
-
-    return document.querySelectorAll(this.luncher);
-  }
-  */
-
   protected get getLunchersAsArray():HTMLElement[] {
     let nodeListArray:HTMLElement[] = [];
 
@@ -97,7 +81,6 @@ export class ToggleContainerComponent implements OnInit {
       let luncherRect:ClientRect = this.luncherElement.getBoundingClientRect();
       this.minWidthForTooltip = luncherRect.width + 'px';
       this.renderer.setElementStyle(this.currentComponent.nativeElement, 'min-width', luncherRect.width + 'px');
-      console.log('set width', luncherRect.width, this.currentComponent.nativeElement);
     }
   }
 
@@ -142,17 +125,6 @@ export class ToggleContainerComponent implements OnInit {
     return ev.srcElement || ev.target;
   }
 
-  /*
-  protected elementIsLuncher(elementToCheck:HTMLElement, elementsList:NodeList):boolean {
-    for (let i=0; i < elementsList.length; i++) {
-      if (elementToCheck === elementsList[i]) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-  */
   protected elementIsLuncher(elementToCheck:HTMLElement, elementsList:HTMLElement[]):boolean {
     for (let i=0; i < elementsList.length; i++) {
       if (elementToCheck === elementsList[i]) {

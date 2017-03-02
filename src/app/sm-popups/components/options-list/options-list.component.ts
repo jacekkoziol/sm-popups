@@ -16,10 +16,10 @@ export class OptionsListComponent implements OnInit, OnChanges {
 
   @Input() css:string;
 
-  @Input() options:Option[] = [];
+  @Input() options:any[] = [];
   @Input() hasSearch:boolean;
   @Input() resetInput:boolean;
-  @Input() activeOption:Option;
+  @Input() activeOption:any;//Option;
   @Input() allowKeyboardNavigation:boolean = false;
   @Input() focusInputOnInit:boolean = false;
   @Output() onChange:EventEmitter<any> = new EventEmitter();
@@ -33,6 +33,7 @@ export class OptionsListComponent implements OnInit, OnChanges {
     }
   }
 
+  private activeOptionToSelect:Option;
   private arrOptions:Option[];
   private arrOptionFiltered:Option[];
   private selectedOptionIndex:number;
@@ -42,13 +43,14 @@ export class OptionsListComponent implements OnInit, OnChanges {
   public selectedOption:Option = this.emptyOption;
 
   /* helper */
-  private oldOptions:Option[] = this.options;
+  private oldOptions:any[] = this.options;
   private oldLength = 0;
   /* helper */
 
   constructor() { }
 
   ngOnInit() {
+    this.formatActiveOption();
     this.formatOptionsList();
     this.filterOptions('');
     this.setDefaultOption();
@@ -57,6 +59,7 @@ export class OptionsListComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges (newVal) {
+    this.formatActiveOption();
     this.formatOptionsList();
     this.filterOptions('');
 
@@ -127,8 +130,8 @@ export class OptionsListComponent implements OnInit, OnChanges {
 
   private setDefaultOption():void {
 
-    if (this.arrOptions && this.arrOptions.length && this.activeOption) {
-      let defaultOptionIndex = this.arrOptions.findIndex(option => option.id === this.activeOption.id);
+    if (this.arrOptions && this.arrOptions.length && this.activeOptionToSelect) {
+      let defaultOptionIndex = this.arrOptions.findIndex(option => option.id === this.activeOptionToSelect.id);
       let currentSelectedOptionIndex = this.arrOptions.findIndex(option => option.id === this.selectedOption.id);
 
       if(this.selectedOption !== this.emptyOption && currentSelectedOptionIndex != -1) {
@@ -213,24 +216,33 @@ export class OptionsListComponent implements OnInit, OnChanges {
     }
   }
 
+  private formatActiveOption():void {
+    this.activeOptionToSelect = (this.activeOption) ? this.convertOptionFromAnyTypeToOption(this.activeOption) : undefined;
+  }
+
 
   private formatOptionsList():void {
     if (this.options && this.options.length) {
       this.arrOptions = this.options.map(el => {
-        if (typeof el == 'object' && el.id && el.text) {
-          return el;
-        } else if (typeof el === 'string' || typeof el === 'number') {
-          return Object.assign({},{},{
-            id: el,
-            text: el
-          })
-        } else {
-          console.error('[sm-select-list]:: Wrong input data format.');
-        }
+        return this.convertOptionFromAnyTypeToOption(el);
       });
     } else {
       this.arrOptions = [];
       console.error('[sm-select-list]:: No options defined.');
+    }
+  }
+
+  private convertOptionFromAnyTypeToOption(option:any):Option|undefined {
+    if(!option) {
+      return undefined;
+    }
+
+    if (typeof option == 'object' &&  'id' in option && 'text' in option) {
+      return option;
+    } else if (typeof option === 'string' || typeof option === 'number') {
+      return new Option(String(option), String(option));
+    } else {
+      console.error('[sm-select-list]:: Wrong input data format.');
     }
   }
 

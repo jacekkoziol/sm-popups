@@ -21,6 +21,14 @@ export class AppComponent {
     {id: '5', text: 'Option 5'},
   ]
 
+  private tempStrOptions:string[] = [
+    'option 1',
+    'option 2',
+    'option 3',
+    'option 4',
+    'option 5',
+  ];
+
   private updateOptions():void {
     let id = Date.now().toString();
     this.tempOptions.push(new Option(id, 'Option ' + id));
@@ -38,6 +46,6 @@ export class AppComponent {
   private selectModel;
 
   private optionSelected($ev):void {
-    console.log('selected: ', $ev);
+    console.log(' app.component: selected: ', $ev);
   }
 }
