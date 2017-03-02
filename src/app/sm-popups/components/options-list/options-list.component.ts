@@ -98,7 +98,7 @@ export class OptionsListComponent implements OnInit, OnChanges {
     this.onChange.emit(data);
   }
 
-  private selectOption(option:Option, optionIndex?:number) {
+  private selectOption(option:Option, optionIndex?:number):void {
     this.selectedOption = option;
     this.selectedOptionIndex = optionIndex;
     this.optionHoverIndex = optionIndex;
@@ -191,7 +191,9 @@ export class OptionsListComponent implements OnInit, OnChanges {
         break;
       case 13: // Enter
         $ev.preventDefault();
-        this.selectOption(this.arrOptionFiltered[this.optionHoverIndex], this.optionHoverIndex);
+        if (this.arrOptionFiltered[this.optionHoverIndex] !== undefined) {
+          this.selectOption(this.arrOptionFiltered[this.optionHoverIndex], this.optionHoverIndex);
+        }
         break;
       case 27: // Esc
         this.blurInput();
