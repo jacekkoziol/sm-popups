@@ -34,7 +34,6 @@ export class SmPositionDirective {
    */
   @HostListener('window:resize', ['$event'])
   private onWindowResize($ev) {
-    //console.log('resized');
     this.resizeAdjustPositionHandler();
   }
 
