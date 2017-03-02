@@ -1,5 +1,5 @@
 
-<input #refInput #refInputModel="ngModel" hidden [attr.required]="required" type="text" class="sm-input-select" [name]="name" [id]="id" [(ngModel)]="selectedOption.id">
+<input #refInput #refInputModel="ngModel" hidden [required]="required" type="text" class="sm-input-select" [name]="name" [id]="id" [(ngModel)]="selectedOption.id">
 <input #refInputLuncher readonly  type="text" class="sm-input-select input--select-like {{css}} {{refInput.className}}" [id]="labelId" [name]="labelName" [value]="selectedOption.text" placeholder="{{placeholder}}">
 
 <sm-tooltip

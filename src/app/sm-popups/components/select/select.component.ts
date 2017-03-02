@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges, Input, Output, ViewChild, HostListener, EventEmitter, forwardRef} from '@angular/core';
-
+import { NgModel } from '@angular/forms';
 import { ToggleContainerComponent } from '../../core/toggle-container/toggle-container.component';
 import { Option } from '../../core/a-models/options';
 
@@ -24,6 +24,7 @@ export class SelectComponent implements OnInit, OnChanges {
 
 
   @ViewChild('refTooltip') tooltip;
+  @ViewChild('refInputModel') private refInputModel:NgModel;
 
 
   @HostListener('document:keydown', ['$event'])
@@ -39,6 +40,8 @@ export class SelectComponent implements OnInit, OnChanges {
   private selectedOption:Option = new Option();
   private optionsList:Option[] = [];
 
+  public ngModel:NgModel;
+
   private labelId:string = '';
   private labelName:string = '';
 
@@ -49,6 +52,7 @@ export class SelectComponent implements OnInit, OnChanges {
     this.setIdAndNameOfSelectField();
     this.updateOptionsList();
     this.updateSelectedOption();
+    setTimeout(() => {this.ngModel = this.refInputModel})
   }
 
   ngOnChanges(newVal) {
@@ -86,6 +90,7 @@ export class SelectComponent implements OnInit, OnChanges {
   private updateSelectedOption():void {
     this.selectedOption = this.convertOptionFromAnyTypeToOption(this.activeOption) || new Option();
   }
+
 
   // Helper
   private generateUUID():string {

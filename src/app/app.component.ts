@@ -8,6 +8,7 @@ import { Option } from './sm-popups/core/a-models/options';
 })
 export class AppComponent implements OnInit{
 
+  private tempOptionsWithEmpty:Option[] = [];
   private tempOptions:Option[] = [];
   private tempStrOptions:string[] = [];
 
@@ -32,6 +33,15 @@ export class AppComponent implements OnInit{
         'option 4',
         'option 5',
       ];
+
+      this.tempOptionsWithEmpty = [
+        {id: '', text: ''},
+        {id: '1', text: 'Option 1'},
+        {id: '2', text: 'Option 2'},
+        {id: '3', text: 'Option 3'},
+        {id: '4', text: 'Option 4'},
+        {id: '5', text: 'Option 5'},
+      ]
 
     },1000);
 
