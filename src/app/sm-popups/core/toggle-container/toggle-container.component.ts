@@ -1,5 +1,7 @@
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter, ElementRef, HostListener, Renderer} from '@angular/core';
 
+const CSS_PREVENT_CONTENT_CLICK_CLOSE = 'sm-is-content-close-prevent';
+
 @Component({
   selector: 'sm-toggle-container',
   exportAs: 'sm-toggle-container',
@@ -17,7 +19,10 @@ export class ToggleContainerComponent implements OnInit {
 
   @Output() onStateChange = new EventEmitter<any>();
 
+  protected cssPreventContentClickClose:string = 'sm-is-content-close-prevented';
+
   private componentIqID:string = '';
+  private componentIqIDParent:string = '';
   private allowCloseContainer:boolean = true;
   public luncherElement:HTMLElement | undefined;
   public minWidthForTooltip:string = '';
@@ -27,6 +32,10 @@ export class ToggleContainerComponent implements OnInit {
     protected renderer:Renderer
   ) {
     this.componentIqID = 'toggle_container_' + this.generateUUID();
+    this.componentIqIDParent = this.componentIqID + '_parent';
+
+    this.setParentComponentId();
+    this.setPreventClickCssClass();
   }
 
   ngOnInit() {
@@ -46,6 +55,10 @@ export class ToggleContainerComponent implements OnInit {
   protected onDocumentClick($ev) {
     let evTarget = this.getElFromEvent($ev);
 
+    //TEST
+    this.isOpen && this.eventPropagationNestedElements($ev);
+    //TEST
+
     if (this.getLunchersAsArray.length && this.elementIsLuncher(evTarget, this.getLunchersAsArray) && !this.isOpen) {
       this.luncherElement = evTarget;
       this.openToggleContainer();
@@ -54,7 +67,7 @@ export class ToggleContainerComponent implements OnInit {
         return;
       }
 
-      this.closeToggleContainerIfOpen();
+      this.closeToggleContainerIfOpen($ev);
     }
   }
 
@@ -93,6 +106,7 @@ export class ToggleContainerComponent implements OnInit {
   }
 
   private closeToggleContainerIfOpen($ev?):void {
+    // TODO:: prevent close parent tooltip if close prevented
     this.isOpen && this.closeToggleContainer($ev);
   }
 
@@ -134,8 +148,56 @@ export class ToggleContainerComponent implements OnInit {
     }
   }
 
+  private setParentComponentId():void {
+    this.renderer.setElementAttribute(this.currentComponent.nativeElement, 'id', this.componentIqIDParent);
+  }
+
+  private setPreventClickCssClass(addClass:boolean=true):void {
+    this.renderer.setElementClass(this.currentComponent.nativeElement, CSS_PREVENT_CONTENT_CLICK_CLOSE, addClass);
+  }
+
+  // TODO:: EventClickNestetHandle
+  private eventPropagationNestedElements($ev) {
+    //console.log($ev);
+    let evElement:HTMLElement = this.getElFromEvent($ev);
+    let secureCounter = 0;
+    let tmpEvElement:HTMLElement = evElement;
+    let componentContent = document.getElementById(this.componentIqID);
+    console.info(this.allowCloseContainer);
+
+    
+
+    do {
+      secureCounter++
+
+      /*
+      if (tmpEvElement.classList.contains(this.cssPreventContentClickClose)) {
+        this.allowCloseContainer = false;
+      }
+      */
+      //console.log('element:', componentContent == tmpEvElement, tmpEvElement);
+      if (componentContent == tmpEvElement && tmpEvElement.classList.contains(this.cssPreventContentClickClose)) {
+        this.allowCloseContainer = false;
+      } else {
+        //this.allowCloseContainer = true;
+      }
+
+      if (secureCounter > 500) {
+        return false;
+      }
+
+      if(!tmpEvElement.parentElement) {
+        //unlock
+        
+      }
+
+    } while (tmpEvElement = tmpEvElement.parentElement)
+
+    //setTimeout(()=>{this.allowCloseContainer = true}, 5000);
+  }
+
   // Helpers
-  protected getElFromEvent(ev) {
+  protected getElFromEvent(ev):HTMLElement {
     return ev.srcElement || ev.target;
   }
 

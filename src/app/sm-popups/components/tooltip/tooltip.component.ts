@@ -25,6 +25,10 @@ export class TooltipComponent extends ToggleContainerComponent implements OnInit
   ngOnInit() {
   }
 
+  private get getAdditionalCssClasses():string {
+    return this.preventCloseContentClick ? this.cssPreventContentClickClose : '';
+  }
+
   private get getMinWidth():string {
     return this.minWidthForTooltip;
 

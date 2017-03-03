@@ -1,4 +1,4 @@
-<div [id]="componentIqID" class="sm-popup sm-tooltip {{css}}" *ngIf="isOpen"
+<div [id]="componentIqID" class="sm-popup sm-tooltip {{getAdditionalCssClasses}} {{css}}" *ngIf="isOpen"
   [style.min-width]="getMinWidth"
   [class.is-active]="isOpen"
   smToOverlay

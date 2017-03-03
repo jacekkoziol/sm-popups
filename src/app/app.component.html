@@ -18,7 +18,7 @@
       <button type="button" class="btn btn-primary js-toggle-luncher-tooltip">2</button>
     </div>
     <div class="col-3">
-      <button type="button" class="btn btn-primary js-toggle-luncher-tooltip">3</button>
+      <button type="button" class="btn btn-primary js-toggle-luncher-tooltip-pc-select">PreventContent with select</button>
     </div>
     <div class="col-3">
       <button type="button" class="btn btn-primary js-toggle-luncher-tooltip-prevent">Prevent content close 4</button>
@@ -38,7 +38,17 @@
             </p>
           </div>
         </div>
-         
+      </sm-tooltip>
+
+      <sm-tooltip [css]="'tmpTooltip'" [preventCloseContentClick]="true" [luncher]="'.js-toggle-luncher-tooltip-pc-select'" (onStateChange)="onStateChange($event)">
+        <div class="row">
+          <div class="col-6">
+            <sm-select [options]="tempStrOptions" [hasSearch]="true" [activeOption]="tempStrOptions[4]" (onSelect)="optionSelected($event)"></sm-select>
+          </div>
+          <div class="col-6">
+            <sm-select [options]="tempStrOptions" [hasSearch]="true" [activeOption]="tempStrOptions[3]" (onSelect)="optionSelected($event)"></sm-select>
+          </div>
+        </div>
       </sm-tooltip>
     </div>
   </div>
