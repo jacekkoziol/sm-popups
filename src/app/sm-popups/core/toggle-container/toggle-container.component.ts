@@ -27,6 +27,9 @@ export class ToggleContainerComponent implements OnInit {
   public luncherElement:HTMLElement | undefined;
   public minWidthForTooltip:string = '';
 
+  static toggleContainersCollection:ToggleContainerComponent[] = [];
+  //static toggleContainersCollection = [];
+
   constructor(
     protected currentComponent:ElementRef,
     protected renderer:Renderer
@@ -56,17 +59,40 @@ export class ToggleContainerComponent implements OnInit {
     let evTarget = this.getElFromEvent($ev);
 
     //TEST
-    this.isOpen && this.eventPropagationNestedElements($ev);
+    //this.isOpen && this.eventPropagationNestedElements($ev);
     //TEST
+    console.log(ToggleContainerComponent.toggleContainersCollection);
 
+    /*
     if (this.getLunchersAsArray.length && this.elementIsLuncher(evTarget, this.getLunchersAsArray) && !this.isOpen) {
       this.luncherElement = evTarget;
       this.openToggleContainer();
     } else {
-      if (this.preventCloseContentClick && this.isOpen && this.elementIsInContent(evTarget) || !this.allowCloseContainer) {
+      
+      if (this.preventCloseContentClick && this.elementIsInContent(evTarget) || !this.allowCloseContainer) {
         return;
       }
 
+      this.closeToggleContainerIfOpen($ev);
+    }
+    */
+
+    if (this.getLunchersAsArray.length && this.elementIsLuncher(evTarget, this.getLunchersAsArray) && !this.isOpen) {
+      this.luncherElement = evTarget;
+      this.openToggleContainer();
+      return;
+    }
+
+    if (this.preventCloseContentClick && this.isOpen && this.elementIsInContent(evTarget) || !this.allowCloseContainer) {
+      return;
+    }
+
+    if (this.isOpen) {
+      //this.removeLastFromInctanceCollectionAndClose();
+      //console.log('luncher:', this.luncherElement, this.luncherElement.parentElement);
+      //console.log(this.elementIsInContent(this.luncherElement))
+
+      //setTimeout(()=>{this.closeToggleContainerIfOpen($ev)}, 2500);
       this.closeToggleContainerIfOpen($ev);
     }
   }
@@ -103,6 +129,8 @@ export class ToggleContainerComponent implements OnInit {
     this.preventCloseDuringOpenning();
     this.setToggleContainerminWidthEqualToLuncherWidth();
     this.setState(true);
+
+    this.addToInstaneCollection(); //test
   }
 
   private closeToggleContainerIfOpen($ev?):void {
@@ -129,6 +157,7 @@ export class ToggleContainerComponent implements OnInit {
       secureCounter++
 
       if(tmpEvElement == componentContent) {
+      //if(tmpEvElement == componentContent || this.luncherElement.parentElement == componentContent) {
         return true;
       }
 
@@ -157,6 +186,45 @@ export class ToggleContainerComponent implements OnInit {
   }
 
   // TODO:: EventClickNestetHandle
+  private testPrevent(evElement:HTMLElement) {
+    // itteruj
+    // jeżeli element ma klase prevent lub parent element ma klase prewent - iteruj
+    // jezeli iterator > 1 , return true - zatrzumaj zamykanie
+  }
+
+  //private eventPropagationNestedElements($ev) {
+  /*
+  private parentIsInContent($ev) {
+    let secureCounter = 0;
+    let evElement:HTMLElement = this.getElFromEvent($ev);
+    let tmpEvElement:HTMLElement = evElement;
+    let componentContent = document.getElementById(this.componentIqID);
+    let thatComponent = this.currentComponent.nativeElement;
+
+
+    //jeśli parent jest w kontenerze z klasą prevent
+
+    do {
+      //secureCounter++
+
+      //console.log('element:', componentContent == tmpEvElement, tmpEvElement);
+      if (thatComponent.classList.contains(this.cssPreventContentClickClose)) {
+       // this.allowCloseContainer = false;
+       console.log('zablokuj');
+       return true;
+      }
+
+      if (secureCounter > 500) {
+        return false;
+      }
+
+
+    } while (thatComponent = thatComponent.parentElement);
+
+    return false
+  } */
+
+  /*
   private eventPropagationNestedElements($ev) {
     //console.log($ev);
     let evElement:HTMLElement = this.getElFromEvent($ev);
@@ -165,35 +233,45 @@ export class ToggleContainerComponent implements OnInit {
     let componentContent = document.getElementById(this.componentIqID);
     console.info(this.allowCloseContainer);
 
+    this._preventClose = false;
     
 
     do {
       secureCounter++
 
-      /*
-      if (tmpEvElement.classList.contains(this.cssPreventContentClickClose)) {
-        this.allowCloseContainer = false;
-      }
-      */
       //console.log('element:', componentContent == tmpEvElement, tmpEvElement);
       if (componentContent == tmpEvElement && tmpEvElement.classList.contains(this.cssPreventContentClickClose)) {
-        this.allowCloseContainer = false;
-      } else {
-        //this.allowCloseContainer = true;
+       // this.allowCloseContainer = false;
+  
+        //this._preventClose = true;
+        break;
       }
 
       if (secureCounter > 500) {
         return false;
       }
 
-      if(!tmpEvElement.parentElement) {
-        //unlock
-        
-      }
 
     } while (tmpEvElement = tmpEvElement.parentElement)
 
     //setTimeout(()=>{this.allowCloseContainer = true}, 5000);
+  }
+  */
+
+  // Manage Instance collection
+  private addToInstaneCollection() {
+    ToggleContainerComponent.toggleContainersCollection.push(this);
+  }
+
+  private removeLastFromInctanceCollection() {
+    let lastElIndex = ToggleContainerComponent.toggleContainersCollection.length - 1;
+    let lastElement = ToggleContainerComponent.toggleContainersCollection.splice(lastElIndex, 1);
+  }
+
+  private removeLastFromInctanceCollectionAndClose() {
+    let lastElIndex = ToggleContainerComponent.toggleContainersCollection.length - 1;
+    let lastElement = ToggleContainerComponent.toggleContainersCollection.splice(lastElIndex, 1);
+    lastElement[0].closeToggleContainer();
   }
 
   // Helpers
