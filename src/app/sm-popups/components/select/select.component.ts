@@ -41,8 +41,8 @@ export class SelectComponent implements OnInit, OnChanges {
 
   public ngModel:NgModel;
 
-  private labelId:string = '';
-  private labelName:string = '';
+  private valueId:string = '';
+  private valueName:string = '';
 
   constructor(
   ) {}
@@ -65,8 +65,8 @@ export class SelectComponent implements OnInit, OnChanges {
     this.id = this.id || strIdName;
     this.name = this.name || strIdName;
 
-    this.labelId = this.id + '_label';
-    this.labelName= this.name + '_label';
+    this.valueId = this.id + '_value';
+    this.valueName= this.name + '_value';
   }
 
   private onOptionChange($ev):void {

@@ -19,6 +19,11 @@
   &--full-width {
     width: 100%;
   }
+
+  &--select-list {
+    width: 100%;
+    min-width:40px;
+  }
 }
 
 .select-filter__field {
