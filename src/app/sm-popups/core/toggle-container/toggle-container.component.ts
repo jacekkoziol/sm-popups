@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, Output, EventEmitter, ElementRef, HostListener, Renderer } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter, ElementRef, HostListener, Renderer} from '@angular/core';
 
 @Component({
   selector: 'sm-toggle-container',
@@ -17,6 +17,7 @@ export class ToggleContainerComponent implements OnInit {
 
   @Output() onStateChange = new EventEmitter<any>();
 
+  private componentIqID:string = '';
   private allowCloseContainer:boolean = true;
   public luncherElement:HTMLElement | undefined;
   public minWidthForTooltip:string = '';
@@ -24,7 +25,9 @@ export class ToggleContainerComponent implements OnInit {
   constructor(
     protected currentComponent:ElementRef,
     protected renderer:Renderer
-  ) { }
+  ) {
+    this.componentIqID = 'toggle_container_' + this.generateUUID();
+  }
 
   ngOnInit() {
   }
@@ -47,8 +50,7 @@ export class ToggleContainerComponent implements OnInit {
       this.luncherElement = evTarget;
       this.openToggleContainer();
     } else {
-
-      if (this.preventCloseContentClick && this.elementIsInContent(evTarget) || !this.allowCloseContainer) {
+      if (this.preventCloseContentClick && this.isOpen && this.elementIsInContent(evTarget) || !this.allowCloseContainer) {
         return;
       }
 
@@ -105,16 +107,24 @@ export class ToggleContainerComponent implements OnInit {
   }
 
   protected elementIsInContent(evElement:HTMLElement) {
-    let isInContent = false;
+    let secureCounter = 0;
+    let tmpEvElement = evElement;
+    let componentContent = document.getElementById(this.componentIqID);
 
     do {
-      if(evElement == this.currentComponent.nativeElement) {
-        isInContent = true;
-        break;
-      }
-    } while (evElement = evElement.parentElement)
+      secureCounter++
 
-    return isInContent;
+      if(tmpEvElement == componentContent) {
+        return true;
+      }
+
+      if (secureCounter > 500) {
+        return false;
+      }
+
+    } while (tmpEvElement = tmpEvElement.parentElement)
+
+    return false;
   }
 
   private preventCloseDuringOpenning():void {
@@ -137,5 +147,9 @@ export class ToggleContainerComponent implements OnInit {
     }
 
     return false;
+  }
+
+  private generateUUID():string {
+    return Math.floor((1 + Math.random()) * 0x1000000000000000).toString(16);
   }
 }

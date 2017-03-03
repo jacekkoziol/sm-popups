@@ -21,13 +21,24 @@
       <button type="button" class="btn btn-primary js-toggle-luncher-tooltip">3</button>
     </div>
     <div class="col-3">
-      <button type="button" class="btn btn-primary js-toggle-luncher-tooltip">4</button>
+      <button type="button" class="btn btn-primary js-toggle-luncher-tooltip-prevent">Prevent content close 4</button>
     </div>
   </div>
   <div class="row">
     <div class="col-12">
       <sm-tooltip [css]="'tmpTooltip'" [luncher]="'.js-toggle-luncher-tooltip'" (onStateChange)="onStateChange($event)">
         Some text of tooltip
+      </sm-tooltip>
+
+      <sm-tooltip [css]="'tmpTooltip'" [preventCloseContentClick]="true" [luncher]="'.js-toggle-luncher-tooltip-prevent'" (onStateChange)="onStateChange($event)">
+        <div>
+          <div>
+            <p class="">
+              Some text of tooltip
+            </p>
+          </div>
+        </div>
+         
       </sm-tooltip>
     </div>
   </div>
