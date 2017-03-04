@@ -51,7 +51,7 @@ export class AppComponent implements OnInit{
 
 
   private onStateChange($ev) {
-    console.log('app.component, onStateChange: ', $ev);
+  //  console.log('app.component, onStateChange: ', $ev);
   }
 
   private updateOptions():void {
@@ -67,6 +67,6 @@ export class AppComponent implements OnInit{
   private selectModel;
 
   private optionSelected($ev):void {
-    console.log(' app.component: selected: ', $ev);
+   // console.log(' app.component: selected: ', $ev);
   }
 }
