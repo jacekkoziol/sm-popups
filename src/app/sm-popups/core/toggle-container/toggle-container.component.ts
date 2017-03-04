@@ -130,7 +130,10 @@ export class ToggleContainerComponent implements OnInit {
   public closeToggleContainer($ev?):void {
     //$ev && $ev.preventDefault();
     this.setState(false);
-    this.updateNestedOnClose();
+    setTimeout(()=>{
+      this.updateNestedOnClose();
+    }, 5);
+    //this.updateNestedOnClose();
   }
 
   public setState(state) {
@@ -217,10 +220,25 @@ export class ToggleContainerComponent implements OnInit {
     this.tmpRemoveFromStatic(); //ADDED
 
     // update current level
-    ToggleContainerComponent.toggleCurrentLevel = tooltipCounter;
+    let hightIndex = 0;
+    if (ToggleContainerComponent.toggleNested.length) {
+      let indexes:number[] = [];// = ToggleContainerComponent.toggleNested.map(el=> el.level);
+      ToggleContainerComponent.toggleNested.forEach(el =>{
+        indexes.push(el.level);
+      })
+      console.log('indexes', indexes);
+      hightIndex = Math.max.apply(null, indexes)// Math.max(indexes);
+      console.info(hightIndex);
+    } else {
+      //ToggleContainerComponent.toggleCurrentLevel = 0
+    }
+    ToggleContainerComponent.toggleCurrentLevel = hightIndex;
+    
+    //ToggleContainerComponent.toggleCurrentLevel = tooltipCounter;
     //if (ToggleContainerComponent.toggleCurrentLevel  tooltipCounter) {
       //ToggleContainerComponent.toggleCurrentLevel = tooltipCounter;
     //}
+    //dodać wszystkie poziomy do tablicy i wybrać po zamknięciu ten najwyższy
 
     console.log('open update static: ', ToggleContainerComponent.toggleContainersCollection);
     console.log('open update static inf: ', ToggleContainerComponent.toggleNested);
@@ -252,10 +270,11 @@ export class ToggleContainerComponent implements OnInit {
     let index = ToggleContainerComponent.toggleContainersCollection.indexOf(this.componentIqID);
     let currenCompData = ToggleContainerComponent.toggleNested[index];
 
+    console.log('checks, currLevel', ToggleContainerComponent.toggleCurrentLevel);
 
     if (index != -1) {
       //console.log('checkAllow:', index);
-      console.log('checkAllow currentCompLevel',currenCompData.level);
+      //console.log('checkAllow currentCompLevel',currenCompData.level);
 
       //close
       if(currenCompData.level >= ToggleContainerComponent.toggleCurrentLevel) {
