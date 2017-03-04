@@ -27,7 +27,7 @@ export class ToggleContainerComponent implements OnInit {
   public luncherElement:HTMLElement | undefined;
   public minWidthForTooltip:string = '';
 
-  static toggleContainersCollection:ToggleContainerComponent[] = [];
+  //static toggleContainersCollection:ToggleContainerComponent[] = [];
   //static toggleContainersCollection = [];
 
   constructor(
@@ -61,7 +61,7 @@ export class ToggleContainerComponent implements OnInit {
     //TEST
     //this.isOpen && this.eventPropagationNestedElements($ev);
     //TEST
-    console.log(ToggleContainerComponent.toggleContainersCollection);
+    //console.log(ToggleContainerComponent.toggleContainersCollection);
 
     /*
     if (this.getLunchersAsArray.length && this.elementIsLuncher(evTarget, this.getLunchersAsArray) && !this.isOpen) {
@@ -77,24 +77,30 @@ export class ToggleContainerComponent implements OnInit {
     }
     */
 
+    
+
     if (this.getLunchersAsArray.length && this.elementIsLuncher(evTarget, this.getLunchersAsArray) && !this.isOpen) {
       this.luncherElement = evTarget;
       this.openToggleContainer();
-      return;
-    }
-
-    if (this.preventCloseContentClick && this.isOpen && this.elementIsInContent(evTarget) || !this.allowCloseContainer) {
-      return;
+      //return;
     }
 
     if (this.isOpen) {
-      //this.removeLastFromInctanceCollectionAndClose();
-      //console.log('luncher:', this.luncherElement, this.luncherElement.parentElement);
-      //console.log(this.elementIsInContent(this.luncherElement))
-
-      //setTimeout(()=>{this.closeToggleContainerIfOpen($ev)}, 2500);
-      this.closeToggleContainerIfOpen($ev);
+      this.testPrevent(evTarget);
     }
+    
+
+    /*
+    if (this.preventCloseContentClick && this.isOpen && this.elementIsInContent(evTarget) || !this.allowCloseContainer) {
+      return;
+    }
+    */
+
+   // if (this.isOpen) {
+      //this.closeToggleContainerIfOpen($ev);
+   // }
+
+   // this.testPrevent(evTarget);
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -129,8 +135,7 @@ export class ToggleContainerComponent implements OnInit {
     this.preventCloseDuringOpenning();
     this.setToggleContainerminWidthEqualToLuncherWidth();
     this.setState(true);
-
-    this.addToInstaneCollection(); //test
+    this.updateNestedTooltpsCount(); //TEST
   }
 
   private closeToggleContainerIfOpen($ev?):void {
@@ -173,7 +178,7 @@ export class ToggleContainerComponent implements OnInit {
   private preventCloseDuringOpenning():void {
     if (!this.isOpen) {
       this.allowCloseContainer = false;
-      setTimeout(()=>this.allowCloseContainer = true, 5);
+      setTimeout(()=>this.allowCloseContainer = true, 50);
     }
   }
 
@@ -185,11 +190,66 @@ export class ToggleContainerComponent implements OnInit {
     this.renderer.setElementClass(this.currentComponent.nativeElement, CSS_PREVENT_CONTENT_CLICK_CLOSE, addClass);
   }
 
+  private nestedTooltipsCount = 0;
+  private updateNestedTooltpsCount():void {
+    let thatComponent = this.currentComponent.nativeElement;
+    let tooltipCounter = 0;
+
+    do {
+      if (thatComponent.classList.contains(this.cssPreventContentClickClose)) {
+       tooltipCounter += 1;
+      }
+    } while (thatComponent = thatComponent.parentElement);
+
+    this.nestedTooltipsCount = tooltipCounter;
+    console.log('updated tooltip count:', this.nestedTooltipsCount);
+  }
+
   // TODO:: EventClickNestetHandle
   private testPrevent(evElement:HTMLElement) {
     // itteruj
     // jeżeli element ma klase prevent lub parent element ma klase prewent - iteruj
     // jezeli iterator > 1 , return true - zatrzumaj zamykanie
+
+    let secureCounter = 0;
+    let tmpEvElement:HTMLElement = evElement;
+    let componentContent = document.getElementById(this.componentIqID);
+    let thatComponent = this.currentComponent.nativeElement;
+
+    let tooltipCounter = 0;
+
+    //this.closeToggleContainerIfOpen();
+
+    do {
+      secureCounter++
+
+      //console.log('element:', componentContent == tmpEvElement, tmpEvElement);
+      if (thatComponent.classList.contains(this.cssPreventContentClickClose)) {
+       // this.allowCloseContainer = false;
+       tooltipCounter += 1;
+       //console.log('zablokuj');
+
+       //return true;
+      }
+
+      //console.log(tooltipCounter);
+      //if(tooltipCounter == this.nestedTooltipsCount) {
+      if(tooltipCounter > this.nestedTooltipsCount) {
+        this.closeToggleContainerIfOpen()
+      }
+      
+
+      if (secureCounter > 500) { return false}
+
+    } while (thatComponent = thatComponent.parentElement);
+
+    console.log('curr:', tooltipCounter, this.nestedTooltipsCount);
+
+    /*
+     if(tooltipCounter == this.nestedTooltipsCount) {
+        this.closeToggleContainerIfOpen()
+     }
+    */
   }
 
   //private eventPropagationNestedElements($ev) {
@@ -259,6 +319,7 @@ export class ToggleContainerComponent implements OnInit {
   */
 
   // Manage Instance collection
+  /*
   private addToInstaneCollection() {
     ToggleContainerComponent.toggleContainersCollection.push(this);
   }
@@ -273,6 +334,7 @@ export class ToggleContainerComponent implements OnInit {
     let lastElement = ToggleContainerComponent.toggleContainersCollection.splice(lastElIndex, 1);
     lastElement[0].closeToggleContainer();
   }
+  */
 
   // Helpers
   protected getElFromEvent(ev):HTMLElement {
