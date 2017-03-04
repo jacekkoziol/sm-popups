@@ -266,6 +266,8 @@ export class ToggleContainerComponent implements OnInit {
     }
   }
 
+
+  // TODO:: check if in line
   private checkAllowCloseNestedElement() {
     let index = ToggleContainerComponent.toggleContainersCollection.indexOf(this.componentIqID);
     let currenCompData = ToggleContainerComponent.toggleNested[index];
@@ -281,24 +283,13 @@ export class ToggleContainerComponent implements OnInit {
         return true
       }
     }
-    
-    /*
-    if (ToggleContainerComponent.toggleContainersCollection.length == (this.nestedTooltipsCount + 1)) {
-      let lastIndex = ToggleContainerComponent.toggleContainersCollection.length - 1;
-      //console.log('allow close' );
-      console.log(this.nestedTooltipsCount);
-      //if(lastIndex > -1 && ToggleContainerComponent.toggleContainersCollection[lastIndex] == this.componentIqID) {
-      if(ToggleContainerComponent.toggleContainersCollection.length > this.nestedTooltipsCount) {
-        console.log('close: => ', this.componentIqID);
-        return true
-      }
-    }*/
 
     //return false;
     return false; //true;
   }
 
   // TODO:: EventClickNestetHandle
+  /*
   private testPrevent(evElement:HTMLElement) {
     // itteruj
     // jeżeli element ma klase prevent lub parent element ma klase prewent - iteruj
@@ -348,12 +339,10 @@ export class ToggleContainerComponent implements OnInit {
       }
     }
 
-    /*
-     if(tooltipCounter == this.nestedTooltipsCount) {
-        this.closeToggleContainerIfOpen()
-     }
-    */
   }
+  */
+
+
 
   //private eventPropagationNestedElements($ev) {
   /*
