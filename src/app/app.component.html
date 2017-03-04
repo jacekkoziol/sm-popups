@@ -49,6 +49,24 @@
             <sm-select [options]="tempStrOptions" [hasSearch]="true" [activeOption]="tempStrOptions[3]" (onSelect)="optionSelected($event)"></sm-select>
           </div>
         </div>
+
+        <div class="row">
+          <div class="col-12">
+            <button #refBtnLuncher class="btn btn-warning">Lunch Nested tooltip</button>
+            <sm-tooltip
+                #refTooltip
+                [css]="'tmpTooltip '"
+                [luncher]="refBtnLuncher"
+                [useLuncherWidth]="true"
+                [positionLuncher]="refBtnLuncher"
+                [preventCloseContentClick]="true">
+
+                Content of the tooltip <br>
+                another line
+            </sm-tooltip>
+
+          </div>
+        </div>
       </sm-tooltip>
     </div>
   </div>
