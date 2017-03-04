@@ -28,7 +28,7 @@ export class ToggleContainerComponent implements OnInit {
   public minWidthForTooltip:string = '';
 
   //static toggleContainersCollection:ToggleContainerComponent[] = [];
-  //static toggleContainersCollection = [];
+  static toggleContainersCollection:string[] = [];
 
   constructor(
     protected currentComponent:ElementRef,
@@ -63,6 +63,22 @@ export class ToggleContainerComponent implements OnInit {
     //TEST
     //console.log(ToggleContainerComponent.toggleContainersCollection);
 
+    if (this.getLunchersAsArray.length && this.elementIsLuncher(evTarget, this.getLunchersAsArray) && !this.isOpen) {
+      this.luncherElement = evTarget;
+      this.openToggleContainer();
+    } else {
+      
+      if (this.preventCloseContentClick && this.elementIsInContent(evTarget) || !this.allowCloseContainer) {
+        return;
+      }
+
+      if (!this.checkAllowCloseNestedElement()) {
+        return;
+      }
+
+      this.closeToggleContainerIfOpen($ev);
+    }
+
     /*
     if (this.getLunchersAsArray.length && this.elementIsLuncher(evTarget, this.getLunchersAsArray) && !this.isOpen) {
       this.luncherElement = evTarget;
@@ -77,7 +93,7 @@ export class ToggleContainerComponent implements OnInit {
     }
     */
 
-    
+    /* latest
 
     if (this.getLunchersAsArray.length && this.elementIsLuncher(evTarget, this.getLunchersAsArray) && !this.isOpen) {
       this.luncherElement = evTarget;
@@ -86,9 +102,10 @@ export class ToggleContainerComponent implements OnInit {
     }
 
     if (this.isOpen) {
-      this.testPrevent(evTarget);
+      //this.testPrevent(evTarget);
+      this.checkAllowCloseNestedElement();
     }
-    
+    */
 
     /*
     if (this.preventCloseContentClick && this.isOpen && this.elementIsInContent(evTarget) || !this.allowCloseContainer) {
@@ -146,6 +163,7 @@ export class ToggleContainerComponent implements OnInit {
   public closeToggleContainer($ev?):void {
     //$ev && $ev.preventDefault();
     this.setState(false);
+    this.tmpRemoveFromStatic(); //ADDED
   }
 
   public setState(state) {
@@ -198,11 +216,43 @@ export class ToggleContainerComponent implements OnInit {
     do {
       if (thatComponent.classList.contains(this.cssPreventContentClickClose)) {
        tooltipCounter += 1;
+       //this.tmpAddToStatic();
       }
     } while (thatComponent = thatComponent.parentElement);
 
     this.nestedTooltipsCount = tooltipCounter;
+    this.tmpAddToStatic();
+
     console.log('updated tooltip count:', this.nestedTooltipsCount);
+    console.log('update static: ', ToggleContainerComponent.toggleContainersCollection);
+  }
+
+  private tmpAddToStatic():void {
+    if (ToggleContainerComponent.toggleContainersCollection.indexOf(this.componentIqID) == -1){
+      ToggleContainerComponent.toggleContainersCollection.push(this.componentIqID);
+    }
+  }
+
+  private tmpRemoveFromStatic():void {
+    let index = ToggleContainerComponent.toggleContainersCollection.indexOf(this.componentIqID);
+    
+    if (index != -1) {
+      ToggleContainerComponent.toggleContainersCollection.splice(index, 1);
+    }
+  }
+
+  private checkAllowCloseNestedElement() {
+    if (ToggleContainerComponent.toggleContainersCollection.length == (this.nestedTooltipsCount + 1)) {
+      let lastIndex = ToggleContainerComponent.toggleContainersCollection.length - 1;
+      //console.log('allow close' );
+
+      if(lastIndex > -1 && ToggleContainerComponent.toggleContainersCollection[lastIndex] == this.componentIqID) {
+        console.log('close: => ', this.componentIqID);
+        return true
+      }
+    }
+
+    return false;
   }
 
   // TODO:: EventClickNestetHandle
@@ -244,6 +294,15 @@ export class ToggleContainerComponent implements OnInit {
     } while (thatComponent = thatComponent.parentElement);
 
     console.log('curr:', tooltipCounter, this.nestedTooltipsCount);
+
+    if (ToggleContainerComponent.toggleContainersCollection.length == (this.nestedTooltipsCount + 1)) {
+      let lastIndex = ToggleContainerComponent.toggleContainersCollection.length - 1;
+      //console.log('allow close' );
+
+      if(lastIndex > -1 && ToggleContainerComponent.toggleContainersCollection[lastIndex] == this.componentIqID) {
+        console.log('close: => ', this.componentIqID);
+      }
+    }
 
     /*
      if(tooltipCounter == this.nestedTooltipsCount) {
