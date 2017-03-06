@@ -32,14 +32,9 @@ export class ToggleContainerComponent implements OnInit {
   public luncherElement:HTMLElement | undefined;
   public minWidthForTooltip:string = '';
 
-  //private nestedLevel = 0;
-
-  //static toggleContainersCollection:ToggleContainerComponent[] = [];
   static toggleCurrentLevel:number = 0;
   static toggleContainersCollection:string[] = [];
   static toggleNested:NestedLevelInfoInterface[] = [];
-
-  //static level:number = 0;
 
   constructor(
     protected currentComponent:ElementRef,
@@ -73,7 +68,7 @@ export class ToggleContainerComponent implements OnInit {
       this.luncherElement = evTarget;
       this.openToggleContainer();
     } else {
-      
+
       if (this.preventCloseContentClick && this.elementIsInContent(evTarget) || !this.allowCloseContainer) {
         return;
       }
@@ -119,11 +114,10 @@ export class ToggleContainerComponent implements OnInit {
     this.preventCloseDuringOpenning();
     this.setToggleContainerminWidthEqualToLuncherWidth();
     this.setState(true);
-    this.updateNestedOnOpen(); //TEST
+    this.updateNestedOnOpen();
   }
 
   private closeToggleContainerIfOpen($ev?):void {
-    // TODO:: prevent close parent tooltip if close prevented
     this.isOpen && this.closeToggleContainer($ev);
   }
 
@@ -133,7 +127,6 @@ export class ToggleContainerComponent implements OnInit {
     setTimeout(()=>{
       this.updateNestedOnClose();
     }, 5);
-    //this.updateNestedOnClose();
   }
 
   public setState(state) {
@@ -150,7 +143,6 @@ export class ToggleContainerComponent implements OnInit {
       secureCounter++
 
       if(tmpEvElement == componentContent) {
-      //if(tmpEvElement == componentContent || this.luncherElement.parentElement == componentContent) {
         return true;
       }
 
@@ -186,7 +178,6 @@ export class ToggleContainerComponent implements OnInit {
     do {
       if (thatComponent.classList.contains(this.cssPreventContentClickClose)) {
        tooltipCounter += 1;
-       //this.tmpAddToStatic();
       }
     } while (thatComponent = thatComponent.parentElement);
 
@@ -198,12 +189,10 @@ export class ToggleContainerComponent implements OnInit {
       ToggleContainerComponent.toggleCurrentLevel = tooltipCounter;
     }
 
-    //ToggleContainerComponent.toggleCurrentLevel = (ToggleContainerComponent.toggleCurrentLevel < tooltipCounter) ? tooltipCounter : ToggleContainerComponent.toggleCurrentLevel
-
-    //console.log('open updated tooltip count:', this.nestedTooltipsCount);
-    console.log('open update static: ', ToggleContainerComponent.toggleContainersCollection);
-    console.log('open update static inf: ', ToggleContainerComponent.toggleNested);
-    console.log('open current level: ', ToggleContainerComponent.toggleCurrentLevel)
+    // console.log('open updated tooltip count:', this.nestedTooltipsCount);
+    // console.log('open update static: ', ToggleContainerComponent.toggleContainersCollection);
+    // console.log('open update static inf: ', ToggleContainerComponent.toggleNested);
+    // console.log('open current level: ', ToggleContainerComponent.toggleCurrentLevel)
   }
 
   private updateNestedOnClose():void {
@@ -222,33 +211,26 @@ export class ToggleContainerComponent implements OnInit {
     // update current level
     let hightIndex = 0;
     if (ToggleContainerComponent.toggleNested.length) {
-      let indexes:number[] = [];// = ToggleContainerComponent.toggleNested.map(el=> el.level);
+      let indexes:number[] = [];
       ToggleContainerComponent.toggleNested.forEach(el =>{
         indexes.push(el.level);
       })
-      console.log('indexes', indexes);
-      hightIndex = Math.max.apply(null, indexes)// Math.max(indexes);
-      console.info(hightIndex);
-    } else {
-      //ToggleContainerComponent.toggleCurrentLevel = 0
+      // console.log('indexes', indexes);
+      hightIndex = Math.max.apply(null, indexes)
+      // console.info(hightIndex);
     }
-    ToggleContainerComponent.toggleCurrentLevel = hightIndex;
-    
-    //ToggleContainerComponent.toggleCurrentLevel = tooltipCounter;
-    //if (ToggleContainerComponent.toggleCurrentLevel  tooltipCounter) {
-      //ToggleContainerComponent.toggleCurrentLevel = tooltipCounter;
-    //}
-    //dodać wszystkie poziomy do tablicy i wybrać po zamknięciu ten najwyższy
 
-    console.log('open update static: ', ToggleContainerComponent.toggleContainersCollection);
-    console.log('open update static inf: ', ToggleContainerComponent.toggleNested);
-    console.log('open current level: ', ToggleContainerComponent.toggleCurrentLevel)
+    ToggleContainerComponent.toggleCurrentLevel = hightIndex;
+
+    // console.log('open update static: ', ToggleContainerComponent.toggleContainersCollection);
+    // console.log('open update static inf: ', ToggleContainerComponent.toggleNested);
+    // console.log('open current level: ', ToggleContainerComponent.toggleCurrentLevel)
   }
 
   private tmpAddToStatic():void {
     if (ToggleContainerComponent.toggleContainersCollection.indexOf(this.componentIqID) == -1) {
       ToggleContainerComponent.toggleContainersCollection.push(this.componentIqID);
-      
+
       ToggleContainerComponent.toggleNested.push({
         id: this.componentIqID,
         level: this.nestedTooltipsCount
@@ -258,8 +240,7 @@ export class ToggleContainerComponent implements OnInit {
 
   private tmpRemoveFromStatic():void {
     let index = ToggleContainerComponent.toggleContainersCollection.indexOf(this.componentIqID);
-    
-    
+
     if (index != -1) {
       ToggleContainerComponent.toggleContainersCollection.splice(index, 1);
       ToggleContainerComponent.toggleNested.splice(index, 1);
@@ -267,166 +248,22 @@ export class ToggleContainerComponent implements OnInit {
   }
 
 
-  // TODO:: check if in line
+  // Check if the tooltip is nested
   private checkAllowCloseNestedElement() {
     let index = ToggleContainerComponent.toggleContainersCollection.indexOf(this.componentIqID);
     let currenCompData = ToggleContainerComponent.toggleNested[index];
 
-    console.log('checks, currLevel', ToggleContainerComponent.toggleCurrentLevel);
+    //console.log('checks, currLevel', ToggleContainerComponent.toggleCurrentLevel);
 
     if (index != -1) {
-      //console.log('checkAllow:', index);
-      //console.log('checkAllow currentCompLevel',currenCompData.level);
-
       //close
       if(currenCompData.level >= ToggleContainerComponent.toggleCurrentLevel) {
         return true
       }
     }
 
-    //return false;
-    return false; //true;
+    return false;
   }
-
-  // TODO:: EventClickNestetHandle
-  /*
-  private testPrevent(evElement:HTMLElement) {
-    // itteruj
-    // jeżeli element ma klase prevent lub parent element ma klase prewent - iteruj
-    // jezeli iterator > 1 , return true - zatrzumaj zamykanie
-
-    let secureCounter = 0;
-    let tmpEvElement:HTMLElement = evElement;
-    let componentContent = document.getElementById(this.componentIqID);
-    let thatComponent = this.currentComponent.nativeElement;
-
-    let tooltipCounter = 0;
-
-    //this.closeToggleContainerIfOpen();
-
-    do {
-      secureCounter++
-
-      //console.log('element:', componentContent == tmpEvElement, tmpEvElement);
-      if (thatComponent.classList.contains(this.cssPreventContentClickClose)) {
-       // this.allowCloseContainer = false;
-       tooltipCounter += 1;
-       //console.log('zablokuj');
-
-       //return true;
-      }
-
-      //console.log(tooltipCounter);
-      //if(tooltipCounter == this.nestedTooltipsCount) {
-      if(tooltipCounter > this.nestedTooltipsCount) {
-        this.closeToggleContainerIfOpen()
-      }
-      
-
-      if (secureCounter > 500) { return false}
-
-    } while (thatComponent = thatComponent.parentElement);
-
-    console.log('curr:', tooltipCounter, this.nestedTooltipsCount);
-
-    //if (ToggleContainerComponent.toggleContainersCollection.length == (this.nestedTooltipsCount + 1)) {
-    if (this.nestedTooltipsCount < ToggleContainerComponent.toggleContainersCollection.length ) {
-      let lastIndex = ToggleContainerComponent.toggleContainersCollection.length - 1;
-      //console.log('allow close' );
-
-      if(lastIndex > -1 && ToggleContainerComponent.toggleContainersCollection[lastIndex] == this.componentIqID) {
-        console.log('close: => ', this.componentIqID);
-      }
-    }
-
-  }
-  */
-
-
-
-  //private eventPropagationNestedElements($ev) {
-  /*
-  private parentIsInContent($ev) {
-    let secureCounter = 0;
-    let evElement:HTMLElement = this.getElFromEvent($ev);
-    let tmpEvElement:HTMLElement = evElement;
-    let componentContent = document.getElementById(this.componentIqID);
-    let thatComponent = this.currentComponent.nativeElement;
-
-
-    //jeśli parent jest w kontenerze z klasą prevent
-
-    do {
-      //secureCounter++
-
-      //console.log('element:', componentContent == tmpEvElement, tmpEvElement);
-      if (thatComponent.classList.contains(this.cssPreventContentClickClose)) {
-       // this.allowCloseContainer = false;
-       console.log('zablokuj');
-       return true;
-      }
-
-      if (secureCounter > 500) {
-        return false;
-      }
-
-
-    } while (thatComponent = thatComponent.parentElement);
-
-    return false
-  } */
-
-  /*
-  private eventPropagationNestedElements($ev) {
-    //console.log($ev);
-    let evElement:HTMLElement = this.getElFromEvent($ev);
-    let secureCounter = 0;
-    let tmpEvElement:HTMLElement = evElement;
-    let componentContent = document.getElementById(this.componentIqID);
-    console.info(this.allowCloseContainer);
-
-    this._preventClose = false;
-    
-
-    do {
-      secureCounter++
-
-      //console.log('element:', componentContent == tmpEvElement, tmpEvElement);
-      if (componentContent == tmpEvElement && tmpEvElement.classList.contains(this.cssPreventContentClickClose)) {
-       // this.allowCloseContainer = false;
-  
-        //this._preventClose = true;
-        break;
-      }
-
-      if (secureCounter > 500) {
-        return false;
-      }
-
-
-    } while (tmpEvElement = tmpEvElement.parentElement)
-
-    //setTimeout(()=>{this.allowCloseContainer = true}, 5000);
-  }
-  */
-
-  // Manage Instance collection
-  /*
-  private addToInstaneCollection() {
-    ToggleContainerComponent.toggleContainersCollection.push(this);
-  }
-
-  private removeLastFromInctanceCollection() {
-    let lastElIndex = ToggleContainerComponent.toggleContainersCollection.length - 1;
-    let lastElement = ToggleContainerComponent.toggleContainersCollection.splice(lastElIndex, 1);
-  }
-
-  private removeLastFromInctanceCollectionAndClose() {
-    let lastElIndex = ToggleContainerComponent.toggleContainersCollection.length - 1;
-    let lastElement = ToggleContainerComponent.toggleContainersCollection.splice(lastElIndex, 1);
-    lastElement[0].closeToggleContainer();
-  }
-  */
 
   // Helpers
   protected getElFromEvent(ev):HTMLElement {
