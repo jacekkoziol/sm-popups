@@ -35,4 +35,12 @@ export class TooltipComponent extends ToggleContainerComponent implements OnInit
     //return this.minWidthForTooltip && 'min-width:'+ this.minWidthForTooltip;
   }
 
+  public open($ev?):void {
+    this.openToggleContainer($ev);
+  }
+
+  public close($ev?):void {
+    this.closeToggleContainer($ev);
+  }
+
 }
