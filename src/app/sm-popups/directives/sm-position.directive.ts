@@ -71,11 +71,21 @@ export class SmPositionDirective {
 
   private handlePositioningForCurrentEl():void {
     switch (this.smPosition) {
+      case 'my-center-at-bottom-right':
+        setTimeout(()=>{this.calcMyCenterAtBottomRight()});
+        //this.calcMyCenterAtBottomRight();
+        break;
+      case 'my-center-at-top-right':
+        setTimeout(()=>{this.calcMyCenterAtTopRight()});
+        break;
       default:
         this.calcDefaultPosition();
     }
 
     this.setPositionForCurrentElement();
+    setTimeout(()=>{
+      this.setPositionForCurrentElement();
+    });
   }
 
 
@@ -91,6 +101,24 @@ export class SmPositionDirective {
     let tmpCurrElPos:ClientRect = this.currentElement.nativeElement.getBoundingClientRect();
     this.intentionalPosition.top = this.targetElPosition.top - tmpCurrElPos.height;
     this.intentionalPosition.left = this.targetElPosition.left;
+  }
+
+  // Position: My center at bootom right (my-center-at-bottom-right)
+  private calcMyCenterAtBottomRight():void {
+    let tmpCurrElPos:ClientRect = this.currentElement.nativeElement.getBoundingClientRect();
+    let myCenter = this.targetElPosition.left - (tmpCurrElPos.width / 2);
+
+    this.intentionalPosition.top = this.targetElPosition.top + this.targetElPosition.height;
+    this.intentionalPosition.left = myCenter + this.targetElPosition.width;
+  }
+
+  // Position: My center at bootom right (my-center-at-top-right)
+  private calcMyCenterAtTopRight():void {
+    let tmpCurrElPos:ClientRect = this.currentElement.nativeElement.getBoundingClientRect();
+    let myCenter = this.targetElPosition.left - (tmpCurrElPos.width / 2);
+
+    this.intentionalPosition.top = this.targetElPosition.top - tmpCurrElPos.height;
+    this.intentionalPosition.left = myCenter + this.targetElPosition.width;
   }
 
 
