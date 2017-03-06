@@ -8,7 +8,7 @@ interface intentionalPositionI {
 const POSITION_ADJUST_MARGIN = 10; //in pixels
 
 @Directive({
-  selector: '[smPosition]'
+  selector: '[smPosition]',
 })
 export class SmPositionDirective {
 
@@ -70,19 +70,28 @@ export class SmPositionDirective {
   }
 
   private handlePositioningForCurrentEl():void {
+    this.calcDefaultPosition();
+    this.setPositionForCurrentElement();
+
     switch (this.smPosition) {
       case 'my-center-at-bottom-right':
+        this.calcMyCenterAtBottomRight();
         setTimeout(()=>{this.calcMyCenterAtBottomRight()});
         //this.calcMyCenterAtBottomRight();
         break;
       case 'my-center-at-top-right':
+        this.calcMyCenterAtTopRight();
         setTimeout(()=>{this.calcMyCenterAtTopRight()});
+        break;
+      case 'my-top-left-at-right-top':
+        this.calcMyLeftTopAtRightTop();
+        setTimeout(()=>{this.calcMyLeftTopAtRightTop()});
         break;
       default:
         this.calcDefaultPosition();
     }
 
-    this.setPositionForCurrentElement();
+    //this.setPositionForCurrentElement();
     setTimeout(()=>{
       this.setPositionForCurrentElement();
     });
@@ -103,7 +112,7 @@ export class SmPositionDirective {
     this.intentionalPosition.left = this.targetElPosition.left;
   }
 
-  // Position: My center at bootom right (my-center-at-bottom-right)
+  // Position: My center at bottom right (my-center-at-bottom-right)
   private calcMyCenterAtBottomRight():void {
     let tmpCurrElPos:ClientRect = this.currentElement.nativeElement.getBoundingClientRect();
     let myCenter = this.targetElPosition.left - (tmpCurrElPos.width / 2);
@@ -112,13 +121,21 @@ export class SmPositionDirective {
     this.intentionalPosition.left = myCenter + this.targetElPosition.width;
   }
 
-  // Position: My center at bootom right (my-center-at-top-right)
+  // Position: My center at top right (my-center-at-top-right)
   private calcMyCenterAtTopRight():void {
     let tmpCurrElPos:ClientRect = this.currentElement.nativeElement.getBoundingClientRect();
     let myCenter = this.targetElPosition.left - (tmpCurrElPos.width / 2);
 
     this.intentionalPosition.top = this.targetElPosition.top - tmpCurrElPos.height;
     this.intentionalPosition.left = myCenter + this.targetElPosition.width;
+  }
+
+  // Position: My top left at right top (my-top-left-at-right-top)
+  private calcMyLeftTopAtRightTop():void {
+    let tmpCurrElPos:ClientRect = this.currentElement.nativeElement.getBoundingClientRect();
+
+    this.intentionalPosition.top = this.targetElPosition.top;
+    this.intentionalPosition.left = this.targetElPosition.left + this.targetElPosition.width;
   }
 
 
