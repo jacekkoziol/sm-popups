@@ -55,8 +55,10 @@ export class SelectComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(newVal) {
-    this.updateOptionsList();
-    this.updateSelectedOption();
+    if (newVal.options || newVal.activeOption) {
+      this.updateOptionsList();
+      this.updateSelectedOption();
+    }
   }
 
   private setIdAndNameOfSelectField():void {
