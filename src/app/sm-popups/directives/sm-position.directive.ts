@@ -79,6 +79,11 @@ export class SmPositionDirective {
         setTimeout(()=>{this.calcMyCenterAtBottomRight()});
         //this.calcMyCenterAtBottomRight();
         break;
+      case 'my-center-at-bottom-center':
+        this.calcMyCenterAtBottomRight();
+        setTimeout(()=>{this.calcMyCenterAtBottomCenter()});
+        //this.calcMyCenterAtBottomRight();
+        break;
       case 'my-center-at-top-right':
         this.calcMyCenterAtTopRight();
         setTimeout(()=>{this.calcMyCenterAtTopRight()});
@@ -119,6 +124,15 @@ export class SmPositionDirective {
 
     this.intentionalPosition.top = this.targetElPosition.top + this.targetElPosition.height;
     this.intentionalPosition.left = myCenter + this.targetElPosition.width;
+  }
+
+  // Position: My center at bottom center (my-center-at-bottom-center)
+  private calcMyCenterAtBottomCenter():void {
+    let tmpCurrElPos:ClientRect = this.currentElement.nativeElement.getBoundingClientRect();
+    let myCenter = this.targetElPosition.left - (tmpCurrElPos.width / 2);
+
+    this.intentionalPosition.top = this.targetElPosition.top + this.targetElPosition.height;
+    this.intentionalPosition.left = myCenter + (this.targetElPosition.width / 2);
   }
 
   // Position: My center at top right (my-center-at-top-right)
@@ -189,5 +203,8 @@ export class SmPositionDirective {
   private resizeAdjustPositionHandler():void {
     this.proccessPositioning();
   }
+
+  //  Helpers
+  //-------------------------------------------------------------------------------
 
 }

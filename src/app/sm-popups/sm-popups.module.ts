@@ -29,7 +29,7 @@ import { OptionsListComponent } from './components/options-list/options-list.com
   exports: [
     OverlayComponent,
     //ToggleContainerComponent,
-    //SmToOverlayDirective,
+    SmToOverlayDirective,
     //SmPositionDirective,
     TooltipComponent,
     SelectComponent,
