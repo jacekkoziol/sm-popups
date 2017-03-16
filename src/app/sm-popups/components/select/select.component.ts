@@ -21,6 +21,7 @@ export class SelectComponent implements OnInit, OnChanges {
   @Input() required:boolean = true;
 
   @Output() onSelect:EventEmitter<any> = new EventEmitter();
+  @Output() onChange:EventEmitter<any> = new EventEmitter();
 
   @ViewChild('refTooltip') private tooltip;
   @ViewChild('refOptonsList') private refOptionsList;
@@ -37,6 +38,7 @@ export class SelectComponent implements OnInit, OnChanges {
 
   private listIsOpen:boolean = false;
   private selectedOption:Option = new Option();
+  private oldSelectedOption:Option = new Option();
   private optionsList:Option[] = [];
 
   public ngModel:NgModel;
@@ -73,18 +75,26 @@ export class SelectComponent implements OnInit, OnChanges {
 
   private onOptionChange($ev):void {
     setTimeout(() => {
+      this.oldSelectedOption = Object.assign({},this.selectedOption);
       this.selectedOption = $ev.selectedOption;
 
       let data = Object.assign({},$ev,{
         listState: this.tooltip.isOpen ? 'open' : 'close'
       });
 
-      this.emitData(data);
+      this.emitChangedData(data);
+      this.emitSelectedData(data);
     }, 0);
   }
 
-  private emitData(data):void {
-    this.onSelect.emit(data);
+  private emitSelectedData(data):void {
+    if (!(this.oldSelectedOption.id == this.selectedOption.id) || !(this.oldSelectedOption.text == this.selectedOption.text)) {
+      this.onSelect.emit(data);
+    }
+  }
+
+  private emitChangedData(data):void {
+    this.onChange.emit(data);
   }
 
   private updateOptionsList():void {
