@@ -75,7 +75,10 @@ export class SelectComponent implements OnInit, OnChanges {
     setTimeout(() => {
       this.selectedOption = $ev.selectedOption;
 
-      let data = Object.assign({},$ev);
+      let data = Object.assign({},$ev,{
+        listState: this.tooltip.isOpen ? 'open' : 'close'
+      });
+
       this.emitData(data);
     }, 0);
   }
