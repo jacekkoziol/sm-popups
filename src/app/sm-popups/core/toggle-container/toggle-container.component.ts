@@ -50,6 +50,9 @@ export class ToggleContainerComponent implements OnInit {
   ngOnInit() {
   }
 
+  ngOnDestroy() {
+  }
+
   ngOnChanges(newVal) {
     if (newVal.isOpen && newVal.isOpen.currentValue !== undefined) {
 

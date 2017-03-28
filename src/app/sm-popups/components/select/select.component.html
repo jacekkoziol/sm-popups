@@ -1,6 +1,6 @@
 
 <input #refInput #refInputModel="ngModel" hidden [required]="required" type="text" class="sm-input-select" [name]="valueName" [id]="valueId" [(ngModel)]="selectedOption.id">
-<input #refInputLuncher readonly [disabled]="disabled" [style.pointer-events]="disabled ? 'none' : 'auto'" type="text" class="sm-input-select input--select-like {{css}} {{refInput.className}}" [id]="id" [name]="name" [value]="selectedOption.text" placeholder="{{placeholder}}">
+<input #refInputLuncher readonly [disabled]="disabled" [style.pointer-events]="disabled ? 'none' : 'auto'" type="text" class="sm-input-select input--select-like {{css}} {{refInput.className}}" [id]="id" [name]="name" [value]="selectedOptionTextMask || selectedOption.text" placeholder="{{placeholder}}">
 
 <sm-tooltip
   #refTooltip

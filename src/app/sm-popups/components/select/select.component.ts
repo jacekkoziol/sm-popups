@@ -14,6 +14,7 @@ export class SelectComponent implements OnInit, OnChanges {
   @Input() options:any[]; //Option[] = [];
   @Input() activeOption:any; //:Option = new Option();
   @Input() hasSearch:boolean = false;
+  @Input() selectedOptionTextMask:string = '';
 
   @Input() placeholder:string = 'Please select';
   @Input() name:string = '';
@@ -74,7 +75,7 @@ export class SelectComponent implements OnInit, OnChanges {
     this.valueName= this.name + '_value';
   }
 
-  private onOptionChange($ev):void {
+  private onOptionChange($ev, force = false):void {
     setTimeout(() => {
       this.oldSelectedOption = Object.assign({},this.selectedOption);
       this.selectedOption = $ev.selectedOption;
@@ -84,12 +85,16 @@ export class SelectComponent implements OnInit, OnChanges {
       });
 
       this.emitChangedData(data);
-      this.emitSelectedData(data);
+      this.emitSelectedData(data, force);
     }, 0);
   }
 
-  private emitSelectedData(data):void {
-    if (!(this.oldSelectedOption.id == this.selectedOption.id) || !(this.oldSelectedOption.text == this.selectedOption.text)) {
+  private emitSelectedData(data, force = false):void {
+    if (!force) {
+      if (!(this.oldSelectedOption.id == this.selectedOption.id) || !(this.oldSelectedOption.text == this.selectedOption.text)) {
+        this.onSelect.emit(data);
+      }
+    } else {
       this.onSelect.emit(data);
     }
   }
@@ -104,6 +109,16 @@ export class SelectComponent implements OnInit, OnChanges {
 
   private updateSelectedOption():void {
     this.selectedOption = this.convertOptionFromAnyTypeToOption(this.activeOption) || new Option();
+  }
+
+  private selectFirstOption():void {
+    let firstItem = this.optionsList[0];
+    let firstListItem = {
+      id: firstItem.id,
+      text: firstItem.text,
+      selectedOption: firstItem
+    }
+    this.onOptionChange(firstListItem, true);
   }
 
 

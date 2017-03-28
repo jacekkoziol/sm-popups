@@ -14,6 +14,7 @@ export class TooltipComponent extends ToggleContainerComponent implements OnInit
   @Input() position:string|undefined = undefined;
   @Input() positionLuncher:HTMLElement|undefined = undefined;
   @Input() positionPreventAdjust:boolean = false;
+  @Input() onHover:boolean = false;
 
   constructor(
     protected currentComponent:ElementRef,
@@ -23,6 +24,9 @@ export class TooltipComponent extends ToggleContainerComponent implements OnInit
   }
 
   ngOnInit() {
+    if (this.onHover) {
+      this.handleOnHoverToggle();
+    }
   }
 
   private get getAdditionalCssClasses():string {
@@ -41,6 +45,18 @@ export class TooltipComponent extends ToggleContainerComponent implements OnInit
 
   public close($ev?):void {
     this.closeToggleContainer($ev);
+  }
+
+  public handleOnHoverToggle():void {
+    if(this.luncher instanceof HTMLElement) {
+      this.luncher.addEventListener('mouseover', (ev) => {
+        this.openToggleContainer(ev);
+      }, false);
+
+      this.luncher.addEventListener('mouseout', (ev) => {
+        this.closeToggleContainer(ev);
+      }, false);
+    }
   }
 
 }
